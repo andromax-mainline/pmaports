@@ -17,6 +17,14 @@ depends="
 	linux-postmarketos-grate
 	postmarketos-base
 	u-boot-tegra-armv7
+	u-boot-tegra-armv7-grouper
+	u-boot-tegra-armv7-lg
+	u-boot-tegra-armv7-star
+	u-boot-tegra-armv7-surface
+	u-boot-tegra-armv7-tegratab
+	u-boot-tegra-armv7-tf701t
+	u-boot-tegra-armv7-transformer_t20
+	u-boot-tegra-armv7-transformer_t30
 "
 makedepends="devicepkg-dev"
 source="deviceinfo modules-initfs"
