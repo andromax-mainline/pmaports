@@ -1,7 +1,7 @@
 # Reference: <https://postmarketos.org/devicepkg>
 pkgname=device-ouya-ouya
 pkgver=3
-pkgrel=0
+pkgrel=1
 pkgdesc="Ouya"
 url="https://postmarketos.org"
 arch="armv7"
@@ -12,6 +12,7 @@ depends="
 	linux-ouya-ouya-mainline
 	mkbootimg
 	postmarketos-base
+	u-boot-tegra-armv7-ouya
 	"
 makedepends="devicepkg-dev"
 source="
