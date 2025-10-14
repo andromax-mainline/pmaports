@@ -4,22 +4,29 @@
 
 _flavor="postmarketos-apple-16k"
 pkgname=linux-$_flavor
-pkgver=6.16.0
+pkgver=6.17.0
 pkgrel=0
 pkgdesc="Mainline kernel fork for Apple iPhone and iPad devices (16K)"
 arch="aarch64"
 _carch="arm64"
 url="https://kernel.org"
 license="GPL-2.0-only"
-options="!strip !check !tracedeps pmb:cross-native"
+options="!strip !check !tracedeps
+	pmb:cross-native
+	pmb:kconfigcheck-community
+	"
 makedepends="
 	bash
 	bc
 	bison
+	clang
 	devicepkg-dev
 	flex
+	lld
+	llvm
 	openssl-dev
 	perl
+	python3
 	linux-headers
 "
 
@@ -40,19 +47,19 @@ prepare() {
 
 build() {
 	unset LDFLAGS
-	make ARCH="$_carch" \
-		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-postmarketOS" \
-		Image.gz dtbs
+	make ARCH="$_carch" LLVM=1 \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-postmarketOS"
 }
 
 package() {
 	mkdir -p "$pkgdir"/boot
 
-	install -Dm644 "$builddir/arch/$_carch/boot/Image.gz" \
+	install -Dm644 "$builddir/arch/$_carch/boot/vmlinuz" \
 		"$pkgdir/boot/vmlinuz"
 
-	make dtbs_install \
+	make modules_install dtbs_install \
 		ARCH="$_carch" \
+		LLVM=1 \
 		INSTALL_PATH="$pkgdir"/boot/ \
 		INSTALL_MOD_PATH="$pkgdir" \
 		INSTALL_MOD_STRIP=1 \
@@ -64,6 +71,6 @@ package() {
 }
 
 sha512sums="
-7f9a60a57ad165d820f821425614de77b57bd8fc71380f5bf2df9d048b9570f17a4246ead44fbc42a8a597aeea80bd85d5212e5942eed9360ebcb5cfe1f91640  hoolock-6.16.tar.gz
-b510775eab5abe79591c51d093b1155513dcb7107369eb5df4532d34ce6d89630ee83d8dfc980496fc295699218833979f08b6feeb0db900a28357f0cad7e678  config-postmarketos-apple-16k.aarch64
+20a01a26307a0eeebf5f08695318606c6992f749aaa4e1c1574162718b92d8968a318e8696614c3732f253879add3e77968ccb87530f38abe2b9827e09177b78  hoolock-6.17.tar.gz
+f6a87455d2947f7fc0fbef93c00c3de224b0559f91e5ec46f73bd37f827bebbdb5f3214dca4bb4f92d5c31166956113fae54b0e7e4a4e9060ccc7a5c31f478a3  config-postmarketos-apple-16k.aarch64
 "
