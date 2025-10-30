@@ -29,7 +29,7 @@ build() {
 package() {
 	devicepkg_package $startdir $pkgname
 	# blacklist kernel module so usb-c works
-	install -Dm644 "$srcdir/noremote_proc.conf" "$pkgdir/etc/modprobe.d/noremote_proc.conf"
+	install -Dm644 "$srcdir/noremote_proc.conf" "$pkgdir/usr/lib/modprobe.d/noremote_proc.conf"
 }
 
 sha512sums="
