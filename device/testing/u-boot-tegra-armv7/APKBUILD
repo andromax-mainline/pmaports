@@ -22,7 +22,7 @@ makedepends="
 "
 checkdepends=""
 install=""
-options="!check !strip pmb:cross-native"
+options="!check !tracedeps pmb:cross-native"
 commit="fd98452486e37d34c5480f1d162d91bbb30d0b44"
 source="$pkgname-${pkgver/_/-}.tar.bz2::https://gitlab.com/clamor-s/u-boot/-/archive/$commit/u-boot-$commit.tar.bz2
 	u-boot-tegra-armv7.post-upgrade
