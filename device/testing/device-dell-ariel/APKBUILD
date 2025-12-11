@@ -1,0 +1,37 @@
+# Reference: <https://postmarketos.org/devicepkg>
+maintainer="Robert Eckelmann <longnoserob@postmarketos.org>"
+pkgname=device-dell-ariel
+pkgdesc="Device package for the Dell Wyse 3020 thin-client"
+pkgver=1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="armv7"
+options="!check !archcheck"
+# todo: # switch back to pmOS-mainline kernel once that is merged and dell-ariel.dts has been upstreamed
+depends="
+	linux-postmarketos-marvell
+	postmarketos-base
+	u-boot-tools
+"
+makedepends="devicepkg-dev"
+source="
+	deviceinfo
+	modules-initfs
+	wloader.cfg
+"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+	install -Dm755 "$srcdir"/wloader.cfg "$pkgdir"/boot/wloader.cfg
+}
+
+sha512sums="
+52bac2542b084fed1e35fe8305e4dd6df12771ad559ee374e25ff6d2b3fc4cb89b3efdf6bde3cc90d06c9019479b2d72de1cc636b71236b98e5db8639994decf  deviceinfo
+9a3a57169361cdfbf5c629a4fa543d70b684084ab67b25c85af06a73af585f0fb6dfd260b14cb8fd20e4de3b1204fdc2cbaf0925cdf089ab141a2223e5275d13  modules-initfs
+f021ddf1f56fdd8d5c7b2340d2790ad9b247c78e315642b5f6dd5a9a3e61ad280fe762070381b96e44084964944bf75e8a86b21efc95fa315eca9b44446f7e9b  wloader.cfg
+"
