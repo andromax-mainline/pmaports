@@ -4,7 +4,7 @@
 
 _flavor="postmarketos-apple-16k"
 pkgname=linux-$_flavor
-pkgver=6.17.0
+pkgver=6.18.0
 pkgrel=0
 pkgdesc="Mainline kernel fork for Apple iPhone and iPad devices (16K)"
 arch="aarch64"
@@ -37,6 +37,9 @@ _config="config-$_flavor.$arch"
 source="
 	http://github.com/$_repository/archive/refs/tags/$_tag.tar.gz
 	$_config
+	apple.config
+	pagesize.config
+	pmos.config
 "
 builddir="$srcdir/linux-$_tag"
 
@@ -71,6 +74,9 @@ package() {
 }
 
 sha512sums="
-20a01a26307a0eeebf5f08695318606c6992f749aaa4e1c1574162718b92d8968a318e8696614c3732f253879add3e77968ccb87530f38abe2b9827e09177b78  hoolock-6.17.tar.gz
-f6a87455d2947f7fc0fbef93c00c3de224b0559f91e5ec46f73bd37f827bebbdb5f3214dca4bb4f92d5c31166956113fae54b0e7e4a4e9060ccc7a5c31f478a3  config-postmarketos-apple-16k.aarch64
+15ca1734320fdfbd839f7d154c2365928f9fb7a1d3d370e6f649ca3cb8516baf7f887a99737909246d84454524658f21fd76064852bdec8e15ea5ef4fce0812f  hoolock-6.18.tar.gz
+102cdd5d8561506db5b2d6548cb23d58bbd21bfb777e68c8035291dbf9ed6ed071531f90b0bedfc0a4c0c9454fe0c5b76829c5a8141b6a09a7732afc82f60b04  config-postmarketos-apple-16k.aarch64
+ee09eed2017a7b0cf91a47608918addaa238daa1b91149f964d0e6fb1bcd1b133273a3f56ba7326b12ac58a2cd013366c0aa944d64b2e044d78d70b96095a740  apple.config
+038402b4a5aeffd84da8c2bc3891fb2f328cdc4671d424dd4628d9abd431bd450ead9e2652434b982adcd3264ab2f13bc7169d05fa63fa19d7f3232d3a94202e  pagesize.config
+c618317c9664cd44b46c072f4a06fcc3ba2202c4a294ba5178d4f156c2d429389d72a9bee12cefa25143ad21cc3b8a6e61337bf652bde3ea5c7fa795b6a48648  pmos.config
 "
