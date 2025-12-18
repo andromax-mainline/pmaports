@@ -50,6 +50,7 @@ subpackages="
 	$pkgname-v4l2
 	$pkgname-tools
 	py3-$pkgname:py3
+	$pkgname-camshark-setup:camshark_setup
 	"
 _tuning_files="
 	hi846.yaml
@@ -63,6 +64,7 @@ _tuning_files="
 	"
 source="https://gitlab.freedesktop.org/rmader/libcamera/-/archive/postmarketos-gpuisp-2026-01-10/libcamera-postmarketos-gpuisp-2026-01-10.tar.gz
 	qcam.desktop
+	60-libcamera-camshark.conf
 	$_tuning_files
 	"
 builddir="$srcdir/libcamera-postmarketos-gpuisp-2026-01-10"
@@ -172,9 +174,17 @@ py3() {
 	amove usr/lib/python*
 }
 
+camshark_setup() {
+	depends="py3-libcamera openssh"
+
+	install -Dm644 "$srcdir"/60-libcamera-camshark.conf -t \
+		"$subpkgdir"/etc/ssh/sshd_config.d/
+}
+
 sha512sums="
 52c3478a2a90fa97b92f35be53228e6c4b528e9957c5b27b6ccc7400153eeae3bc9ba7daa09a5254ea96ee7ef86959fe03cc4a9cf811e29d8671019ab9740587  libcamera-postmarketos-gpuisp-2026-01-10.tar.gz
 22167a4eceb6d1b40b0b7c45fdf116c71684f5340de7f767535cb8e160ad9d2ae0f00cb3d461f73a344520a48a4641cf46226841d78bee06bfbfd2a91337f754  qcam.desktop
+893a4af8ebbdb26df978369ca6ae63e07db7ecfcb8b80f6c3da9f51a181d6280a0a5a2205bde4bd4b7743761d6e1639a93af6d911a21d59f9766a4e5bb5242f8  60-libcamera-camshark.conf
 f5777d7d9e489a71f41bdb34b34503946378d1da5c95d86727be0df28e3f1cff87148d8c883e492d01e5aae6100942c9e09f96c6b77b80e39a94b64bc2ec30f6  hi846.yaml
 f5777d7d9e489a71f41bdb34b34503946378d1da5c95d86727be0df28e3f1cff87148d8c883e492d01e5aae6100942c9e09f96c6b77b80e39a94b64bc2ec30f6  imx355.yaml
 f5777d7d9e489a71f41bdb34b34503946378d1da5c95d86727be0df28e3f1cff87148d8c883e492d01e5aae6100942c9e09f96c6b77b80e39a94b64bc2ec30f6  imx363.yaml
