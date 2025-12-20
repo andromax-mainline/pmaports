@@ -18,6 +18,7 @@ deviceinfo_screen_height="768"
 deviceinfo_drm="true"
 deviceinfo_disable_dhcpd="true"
 deviceinfo_create_initfs_extra="true"
+deviceinfo_initfs_compression="zstd:fast"
 
 # Bootloader related
 deviceinfo_cgpt_kpart="/boot/vmlinuz.kpart"
