@@ -1,9 +1,9 @@
 # Reference: <https://postmarketos.org/devicepkg>
-maintainer=""
+maintainer="sreeranj <sreeranj1000@gmail.com>"
 pkgname=device-lenovo-tb3-710i
 pkgdesc="Lenovo Tab3 7"
-pkgver=1
-pkgrel=0
+pkgver=1.0
+pkgrel=1.0
 url="https://postmarketos.org"
 license="MIT"
 arch="armv7"

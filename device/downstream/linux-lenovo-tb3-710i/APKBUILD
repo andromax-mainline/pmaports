@@ -4,7 +4,7 @@
 maintainer="sreeranj <sreeranj1000@gmail.com>"
 pkgname=linux-lenovo-tb3-710i
 pkgver=3.10.72
-pkgrel=0
+pkgrel=1.0
 pkgdesc="Lenovo Tab3 7 kernel fork"
 arch="armv7"
 _carch="arm"
