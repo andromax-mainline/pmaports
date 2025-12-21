@@ -12,19 +12,9 @@ _flavor="lenovo-tb3-710i"
 url="https://kernel.org"
 license="GPL-2.0-only"
 options="!strip !check !tracedeps pmb:cross-native"
-makedepends="
-    bash
-    bc
-    bison
-    devicepkg-dev
-    flex
-    gcc4
-    linux-headers
-    make
-    perl
-    python3
-    openssl-dev
-"
+makedepends="bash bc bison devicepkg-dev flex gcc4 linux-headers make perl python3 openssl-dev"
+
+
 if [ "${CC:0:5}" != "gcc4-" ]; then
 	CC="gcc4-$CC"
 	HOSTCC="gcc4-gcc"
@@ -76,5 +66,5 @@ e69556d9f95aebba32420ad56ba4de95326dbebf43ce4f5d1e5c7e14e9a9c0f5c6776f657bc926fa
 7674bf62ce6ac7a6cffa9468d464ed66448b72fdae95023895992a2127c107b9914e1453a1e8913ed4a62416c12ea40a54095da9c581a265c0c08476449de20d  use-gnu89-explicitly.patch
 66ab793bb1fa50a07f10e2cdb0f49ea05a787c6b1fe5358e69a76e43295ac5be3b68cdf6a882e868bfe6969cac981c5545587cd57eee4b5cec26078ae0ecaa1c  linux3.0-8933-1-replace-Sun-Solaris-style-flag-on-section.patch
 080745ca4ecaa804ee1df26ea81975ca93b74372e0c08322a6c481e97807495ae6ceb6cc77653afa24f9f2df45da8ebf8e5de6b06037fbb08e0279877ce42188  linux3.4-fix-piggy.gzip.S.patch
-4e794ef604847cccdc9c70cc02bbe107939bbdd0dd259c05299c57a950f8c9f9ad23381139629c49b0df1646fd52ca711ead321ae4d38ba59a64c7ad31da225a  config-lenovo-tb3-710i.armv7
+771a62c77cc0aaa232708f80a70c3b273f42906844617941fd3c2a9d0054b89ef867175f2a486bdad62ad93bc86918933decb1634023ad174719dcf283439c6f  config-lenovo-tb3-710i.armv7
 "
