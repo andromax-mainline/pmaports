@@ -1,7 +1,7 @@
-From 7ee4431f38fb70ccff9edc2ca23715030fc9c10d Mon Sep 17 00:00:00 2001
+From 8e7d5e50da61a33481fe0523f913870091d721c2 Mon Sep 17 00:00:00 2001
 From: Robert Eckelmann <longnoserob@gmail.com>
 Date: Sun, 21 Dec 2025 12:51:32 +0900
-Subject: [PATCH 2/2] dts/marvell/mmp3-dell-ariel: merge parts from linux-mmp
+Subject: [PATCH 2/3] dts/marvell/mmp3-dell-ariel: merge parts from linux-mmp
 
 Signed-off-by: Robert Eckelmann <longnoserob@gmail.com>
 ---
@@ -9,7 +9,7 @@ Signed-off-by: Robert Eckelmann <longnoserob@gmail.com>
  1 file changed, 156 insertions(+), 9 deletions(-)
 
 diff --git a/arch/arm/boot/dts/marvell/mmp3-dell-ariel.dts b/arch/arm/boot/dts/marvell/mmp3-dell-ariel.dts
-index fe6df364a9eb..672e18d15e19 100644
+index fe6df364a9eb..28a67cc8976c 100644
 --- a/arch/arm/boot/dts/marvell/mmp3-dell-ariel.dts
 +++ b/arch/arm/boot/dts/marvell/mmp3-dell-ariel.dts
 @@ -2,7 +2,7 @@
@@ -36,8 +36,8 @@ index fe6df364a9eb..672e18d15e19 100644
 +		display_reserved: framebuffer {
 +			compatible = "marvell,mmp2-framebuffer",
 +				     "marvell,armada-framebuffer";
-+			size = <0x02000000>;
-+			alignment = <0x02000000>;
++			size = <0x04000000>;
++			alignment = <0x04000000>;
 +			no-map;
 +		};
 +	};

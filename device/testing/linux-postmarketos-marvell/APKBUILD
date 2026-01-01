@@ -33,6 +33,7 @@ _config="config-$_flavor.$arch"
 source="
 	0001-dts-marvell-mmp3-merge-parts-from-linux-mmp.patch
 	0002-dts-marvell-mmp3-dell-ariel-merge-parts-from-linux-m.patch
+	0003-dts-marvell-mmp-dell-ariel-add-framebuffer.patch
 	wd-glacier.patch
 	$pkgname-$pkgver.tar.xz::https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/linux-$pkgver.tar.xz
 	$_config
@@ -69,8 +70,9 @@ package() {
 
 
 sha512sums="
-06f1099cade454bad44fd769134c6957b1260b254d01ecb670b3f2431b31b7ccbd3e9d5f758336b6431e46fb923320fe44162ae04bdc824e3daf3d34658ff77e  0001-dts-marvell-mmp3-merge-parts-from-linux-mmp.patch
-332be1cef9d06a7e087db13b563bc1cb5ec1d8bebbccb1c40afd985e5da5ce4f21a0d96b213faf13b43bac2fe59fddcf54a31e2d4b03638891656b7e288d92ca  0002-dts-marvell-mmp3-dell-ariel-merge-parts-from-linux-m.patch
+3ebc58600a07e07fba681c497b36a7f21de9f9034dab70988ad54e606affa33c49ba3580f92b8343e42b6cfad3b23531ac133d97c2c998878d96bd21d738475d  0001-dts-marvell-mmp3-merge-parts-from-linux-mmp.patch
+ac8471bae424aa0e5835f8c6ed04834918ca665941910fe132353bc35735f1e848e3c34b11e3cd50a49487ba8b5e7cd2a22efb678f19aa85a584efa01d8b49b1  0002-dts-marvell-mmp3-dell-ariel-merge-parts-from-linux-m.patch
+408f8fdfc1bc3dedf0d88d889e628ede3a8a5eae6a2b227922e05bc4efd84d52cb3fb97c2b191e76da0dc811ca5fdf28a89eb249fb6ba3150993281883e77c0f  0003-dts-marvell-mmp-dell-ariel-add-framebuffer.patch
 4c26ffca58dbdb75f24670d0aee5115cc3dc96b09ba2bcbcdd435d3e1e49cc0672cb0c0934a357047f59f47e1d24846f46cdd0cdcd19c87e14ff1c045ddd21af  wd-glacier.patch
 15989d1a26c6a5200b8eab4ba348b308466398aa75dda3844b37e7eb320206236d47c94cbc0e0b1d7ead10385ca84d34d0f2aa02ba5c1bd65ca6a5aa71c57117  linux-postmarketos-marvell-6.18.2.tar.xz
 a9fe4de0c9a37facf099d908b36551ff8a4a1c0738aac042c8e3dea9b0bf5749a8bb1372179c6ec02b93324e0db47dbca632578f8bb97fa32c1b658b88f08690  config-postmarketos-marvell.armv7
