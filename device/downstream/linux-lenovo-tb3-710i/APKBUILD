@@ -31,7 +31,7 @@ source="
 	use-gnu89-explicitly.patch
 	linux3.0-8933-1-replace-Sun-Solaris-style-flag-on-section.patch
 	linux3.4-fix-piggy.gzip.S.patch
-	fix-ncurses.patch
+	fix-check-lxdialog.patch
 	$_config
 "
 builddir="$srcdir/$pkgname-$_commit"
