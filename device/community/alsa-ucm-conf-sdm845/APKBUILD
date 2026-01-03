@@ -1,8 +1,8 @@
 # Maintainer: Casey Connolly <kcxt@postmarketos.org>
 # Co-Maintainer: Joel Selvaraj <foss@joelselvaraj.com>
 pkgname=alsa-ucm-conf-sdm845
-pkgver=1
-pkgrel=1
+pkgver=2
+pkgrel=0
 pkgdesc="ALSA UCM configuration for Qualcomm SDM845 devices"
 url="https://postmarketos.org"
 arch="aarch64"
@@ -10,8 +10,8 @@ license="BSD-3-Clause"
 provides="alsa-ucm-conf"
 provider_priority=1
 replaces="soc-qcom-sdm845-ucm"
-_commit="70d89261a7d30273fba9c6e67a072699f9f88151"
-source="$pkgname-$_commit.tar.gz::https://gitlab.com/sdm845-mainline/alsa-ucm-conf/-/archive/$_commit/alsa-ucm-conf-$_commit.tar.gz"
+_commit="76515b850c66ebf53695d56c029acf3723fc643b"
+source="$pkgname-$_commit.tar.gz::https://gitlab.com/f-izzo/alsa-ucm-conf/-/archive/$_commit/alsa-ucm-conf-$_commit.tar.gz"
 options="!check"
 builddir="$srcdir/$pkgname-$_commit"
 
@@ -23,5 +23,5 @@ package() {
 }
 
 sha512sums="
-f6d03f3b03f944b29b588464e2e26f4f4cc185368714f9e623c1211174ea172efb81a765980c9a289112f5bf8c5c4aafdfd87c0094890069fc3d7c73b29456bc  alsa-ucm-conf-sdm845-70d89261a7d30273fba9c6e67a072699f9f88151.tar.gz
+6ab2269b83b232fc4bf76da004eecf0fdd09d92a9c9f5b1d7c572535c1d4181c739c7976f24ee044a5df6a0d3969f374b453b88a820279c9096950e05ade9ee2  alsa-ucm-conf-sdm845-76515b850c66ebf53695d56c029acf3723fc643b.tar.gz
 "
