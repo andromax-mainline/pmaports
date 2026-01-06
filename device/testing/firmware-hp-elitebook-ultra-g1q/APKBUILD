@@ -1,0 +1,19 @@
+pkgname=firmware-hp-elitebook-ultra-g1q
+pkgdesc="Firmware for the HP EliteBook Ultra G1q"
+pkgver=1
+pkgrel=0
+url="https://postmarketos.org"
+license="proprietary"
+arch="aarch64"
+options="!check !strip !archcheck !spdx !tracedeps pmb:cross-native"
+depends="
+	firmware-asus-s5507q-common
+	firmware-asus-s5507q-dpu
+	linux-firmware-ath11k
+"
+
+package() {
+	# just a symlink to make the asus-s5507q firmware work on here as well
+	mkdir -p "$pkgdir/lib/firmware/qcom/x1e80100/hp/"
+	ln -s ../ASUSTeK/vivobook-s15/ "$pkgdir/lib/firmware/qcom/x1e80100/hp/elitebook-ultra-g1q"
+}
