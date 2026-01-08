@@ -20,3 +20,4 @@
  	touchscreen@5d {
  		compatible = "goodix,gt915";
  		reg = <0x5d>;
+		 
