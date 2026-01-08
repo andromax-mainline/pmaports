@@ -1,0 +1,22 @@
+--- a/arch/arm64/boot/dts/qcom/msm8917-xiaomi-rolex.dts
++++ b/arch/arm64/boot/dts/qcom/msm8917-xiaomi-rolex.dts
+@@ -25,6 +25,20 @@
+ 
+ &i2c_3 {
+ 	status = "okay";
++
++	touchscreen@38 {
++		compatible = "edt,edt-ft5306", "focaltech,ft5435";
++		reg = <0x38>;
++		interrupts-extended = <&tlmm 65 8>;
++		reset-gpios = <&tlmm 64 1>;
++		vcc-supply = <&pm8917_l10>;
++		iovcc-supply = <&pm8917_l5>;
++		touchscreen-size-x = <720>;
++		touchscreen-size-y = <1280>;
++		status = "okay";
++	};
++
+ 	touchscreen@5d {
+ 		compatible = "goodix,gt915";
+ 		reg = <0x5d>;
