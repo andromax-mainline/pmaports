@@ -29,6 +29,7 @@ _config="config-$_flavor.$arch"
 source="
 	$pkgname-v$_tag.tar.gz::$url/archive/v$_tag.tar.gz
 	$_config
+	0001-dts-enable-focaltech.patch
 "
 builddir="$srcdir/linux-$_tag"
 
