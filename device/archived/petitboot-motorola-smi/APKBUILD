@@ -2,7 +2,7 @@
 
 pkgname=petitboot-motorola-smi
 pkgver=1.13
-pkgrel=1
+pkgrel=2
 _commit="c6e874098175b03deb6829c340fccad7bfb5a258"
 pkgdesc="Petitboot based bootloader for motorola-smi"
 url="https://github.com/open-power/petitboot"
@@ -27,6 +27,7 @@ makedepends="
 	kbd
 	abootimg
 "
+subpackages="$pkgname-udev"
 options="!check"
 source="
 	inittab
@@ -53,7 +54,10 @@ build() {
 	cp --parents /etc/terminfo/l/linux initramfs
 	cp --parents /etc/terminfo/v/vt102 initramfs
 	ln -s /bin/init initramfs/init
-	cp --parents -r /etc/udev/rules.d initramfs
+	# Workaround including the udev string with etc
+	cd /etc
+	cp --parents -r ./udev/rules.d "$builddir"/initramfs
+	cd "$builddir"
 	cp --parents -r /usr/lib/udev/rules.d initramfs
 	loadkeys -b keymap.map > initramfs/etc/keymap.bmap
 	cd initramfs; find . ! -name '*.*~' | cpio -o -H newc | gzip > $srcdir/initramfs.cpio.gz
