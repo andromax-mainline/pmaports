@@ -1,0 +1,35 @@
+maintainer="Aster Boese <asterboese@mailbox.org>"
+pkgname=run0-sudo-shim
+# Version must be lower than the real sudo
+_pkgver=0.1.0
+pkgver=0.$_pkgver
+pkgrel=0
+pkgdesc="Shim that uses run0 to shim sudo invocations in shell scripts"
+url="https://gitlab.postmarketos.org/postmarketOS/run0-sudo-shim"
+arch="noarch"
+license="GPL-3.0-or-later"
+depends="cmd:run0"
+subpackages="$pkgname-doc"
+source="https://gitlab.postmarketos.org/postmarketOS/run0-sudo-shim/-/archive/$_pkgver/run0-sudo-shim-$_pkgver.tar.bz2"
+# !check: no tests
+options="!check"
+builddir="$srcdir/$pkgname-$_pkgver"
+
+package() {
+	depends="$depends !doas-sudo-shim !sudo"
+	provides="sudo-virt"
+	# Less than sudo and doas-sudo-shim
+	provider_priority=0
+
+	install -Dm755 "$builddir"/sudo \
+		"$pkgdir"/usr/bin/"$pkgname"
+	ln -s run0-sudo-shim \
+		"$pkgdir"/usr/bin/sudo
+
+	install -Dm755 "$builddir"/LICENSE.txt \
+		"$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE.txt
+}
+
+sha512sums="
+93a7ae6ea2c24526089402d43f36ce2bb61ad264120b3471e897be7f8eec806edef3c1b72bf78b4970d6bb1c4169e0bd3d112e79612b5bf7cae81441bc83e284  run0-sudo-shim-0.1.0.tar.bz2
+"
