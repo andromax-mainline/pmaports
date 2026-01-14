@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+rc-update add zram-init
+
+exit 0
