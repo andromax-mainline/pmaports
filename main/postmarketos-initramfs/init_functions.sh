@@ -99,6 +99,11 @@ parse_cmdline_item() {
 			# shellcheck disable=SC2034
 			log_info=y
 			;;
+		usrhash)
+			# used by init_2nd.sh which sources this script.
+		    # shellcheck disable=SC2034
+			usrhash="$value"
+			;;
 		[![:alpha:]_]* | [[:alpha:]_]*[![:alnum:]_]*)
 			# invalid shell variable, ignore it
 			;;
@@ -260,6 +265,10 @@ info() {
 	echo "$@"
 }
 
+is_immutable_boot() {
+	[ -n "$usrhash" ]
+}
+
 mount_proc_sys_dev() {
 	# mdev
 	mount -t proc -o nodev,noexec,nosuid proc /proc || echo "Couldn't mount /proc"
@@ -406,9 +415,45 @@ pretty_dm_path() {
 	echo "$name"
 }
 
+# Mount EFI vars
+setup_efivarfs() {
+	if mountpoint -q /sys/firmware/efi/efivars; then
+		info "efivars already mounted"
+		return 0
+	fi
+	info "Mounting efivars"
+	modprobe efivarfs || true
+	mount -t efivarfs efivarfs /sys/firmware/efi/efivars || true
+}
+
+# Extract the ESP *partition* UUID from EFI's LoaderDevicePart variable
+# Uses: (none)
+# Sets: uuid variable via output parameters
+# $1: variable name to store ESP partition UUID
+get_esp_partition_uuid_from_efi() {
+	local result="$1"
+	local efi_var uuid
+
+	setup_efivarfs
+	efi_var="$(ls /sys/firmware/efi/efivars/LoaderDevicePartUUID-*)"
+
+	if [ ! -e "$efi_var" ]; then
+		echo "ERROR: LoaderDevicePartUUID not found - not booted via EFI or efivarfs failed?"
+		return 1
+	fi
+
+	# Read UUID, skip first 4 bytes (EFI attributes), convert to lowercase
+	# https://docs.kernel.org/filesystems/efivarfs.html
+	uuid=$(dd if="$efi_var" bs=1 skip=4 2>/dev/null | tr -d '\0' | tr '[:upper:]' '[:lower:]')
+	info "Found ESP UUID: $uuid"
+
+	# Set the result
+	if [ -n "$result" ]; then eval "$result=\"$uuid\""; fi
+}
+
 # Prints the path to the partition if found, or nothing.
 find_partition() {
-	# $1: UUID of partition if known
+	# $1: UUID of partition or filesystem on the partition, if known
 	# $2: path to partition
 	# $3: label of partition
 	# $4: additional blkid token to check (e.g TYPE=crypto_LUKS)
@@ -420,12 +465,14 @@ find_partition() {
 	local partition
 
 	if [ -n "$uuid" ]; then
-		partition="$(blkid --uuid "$uuid")"
+		# Check for the partition by UUID (GPT) or PARTUUID (filesystem)
+		partition="$(blkid --uuid "$uuid" || blkid -t PARTUUID="$uuid" -o device)"
 		if [ -z "$partition" ]; then
 			# Don't fall back to anything if the given UUID wasn't
 			# found, it might show up later but if not we should
 			# error out.
 			return
+
 		fi
 	fi
 
@@ -466,7 +513,11 @@ find_root_partition() {
 	# mount_subpartitions() must get executed before calling
 	# find_root_partition(), so partitions from b) also get found.
 	if [ -z "$PMOS_ROOT" ]; then
-		PMOS_ROOT="$(find_partition "$root_uuid" "$root_path" "pmOS_root" "TYPE=crypto_LUKS")"
+		if is_immutable_boot; then
+			PMOS_ROOT="$(find_root_on_boot_device)"
+		else
+			PMOS_ROOT="$(find_partition "$root_uuid" "$root_path" "pmOS_root" "TYPE=crypto_LUKS")"
+		fi
 	fi
 
 	# Set the result, since using a subshell prevents us from caching
@@ -485,6 +536,9 @@ find_boot_partition() {
 			PMOS_BOOT="/sysroot/boot"
 			mount --bind /sysroot/boot /boot
 		else
+			if is_immutable_boot; then
+				get_esp_partition_uuid_from_efi boot_uuid
+			fi
 			PMOS_BOOT="$(find_partition "$boot_uuid" "$boot_path" "pmOS_boot")"
 		fi
 	fi
@@ -675,56 +729,86 @@ has_unallocated_space() {
 		head -n1 | grep -qi "free space"
 }
 
-mount_root_partition() {
+# Mount root partition to /sysroot with error handling
+# Uses: rootfsopts
+# Sets: partition and type variables via output parameters
+# $1: variable name to store partition path
+# $2: variable name to store filesystem type
+# Returns: 0 on success, 1 if unsupported filesystem, 2 if mount fails, 3 if no /etc/os-release
+try_mount_root_partition() {
 	# Don't mount root if it is already mounted
 	if mountpoint -q /sysroot; then
 		return
 	fi
 
-	local partition
+	local partition_var="$1"
+	local type_var="$2"
+	local partition_path fs_type
 
-	find_root_partition partition
+	find_root_partition partition_path
 
-	echo "Mount root partition ($partition) to /sysroot (read-write) with options ${rootfsopts#,}"
-	type="$(get_partition_type "$partition")"
-	info "Detected $type filesystem"
+	echo "Mount root partition ($partition_path) to /sysroot (read-write) with options ${rootfsopts#,}"
+	fs_type="$(get_partition_type "$partition_path")"
+	info "Detected $fs_type filesystem"
 
-	case "$type" in
-		btrfs|ext4|f2fs|xfs)
-			;;
-		*)
-			echo "ERROR: Detected unsupported '$type' filesystem ($partition)."
-			show_splash "ERROR: unsupported '$type' filesystem ($partition)\\nhttps://postmarketos.org/troubleshooting"
-			fail_halt_boot
-			;;
+	case "$fs_type" in
+		btrfs|ext4|f2fs|xfs) ;;
+		*) return 1 ;;
 	esac
 
-	if ! modprobe "$type"; then
-		info "Unable to load module '$type' - assuming it's built-in"
+	if ! modprobe "$fs_type"; then
+		info "Unable to load module '$fs_type' - assuming it's built-in"
 	fi
 
 	# btrfs may be using multiple backing block devices, scan for the rest of them
-	if [ "$type" = "btrfs" ]; then
+	if [ "$fs_type" = "btrfs" ]; then
 		btrfs device scan
 	fi
 
-	if ! mount -t "$type" -o rw"$rootfsopts" "$partition" /sysroot; then
-		echo "ERROR: unable to mount root partition!"
-		show_splash "ERROR: unable to mount root partition\\nhttps://postmarketos.org/troubleshooting"
-		fail_halt_boot
+	if ! mount -t "$fs_type" -o rw"$rootfsopts" "$partition_path" /sysroot; then
+		return 2
 	fi
 
 	if [ -e /sysroot/.stowaways/pmos/etc/os-release ]; then
 		umount /sysroot
 
 		mkdir /stowaway
-		mount -t "$type" -o rw"$rootfsopts" "$partition" /stowaway
+		mount -t "$fs_type" -o rw"$rootfsopts" "$partition_path" /stowaway
 		mount --bind /stowaway/.stowaways/pmos/ /sysroot
 	fi
 
-	if ! [ -e /sysroot/etc/os-release ]; then
-		show_splash "ERROR: root partition does not contain a root filesystem\\nhttps://postmarketos.org/troubleshooting"
-		fail_halt_boot
+	# This also explicitly checks if os-release is a symlink, since -e can fail if
+	# it exists but is a broken symlink (e.g. the usr partition isn't mounted yet)
+	if ! [ -e /sysroot/etc/os-release ] && ! [ -L /sysroot/etc/os-release ]; then
+		return 3
+	fi
+
+	if [ -n "$partition_var" ]; then eval "$partition_var=\"$partition_path\""; fi
+	if [ -n "$type_var" ]; then eval "$type_var=\"$fs_type\""; fi
+}
+
+# Mount root partition to /sysroot (wrapper with error handling)
+# Uses: (none)
+# Sets: (none)
+# Returns: calls fail_halt_boot on error, 0 on success
+mount_root_partition() {
+	local partition type
+	if ! try_mount_root_partition partition type; then
+		local ret=$?
+		case $ret in
+		1)
+			echo "ERROR: Detected unsupported '$type' filesystem ($partition)."
+			show_splash "ERROR: unsupported '$type' filesystem ($partition)\\nhttps://postmarketos.org/troubleshooting"
+			fail_halt_boot ;;
+		2)
+			echo "ERROR: unable to mount root partition!"
+			show_splash "ERROR: unable to mount root partition\\nhttps://postmarketos.org/troubleshooting"
+			fail_halt_boot ;;
+		3)
+			echo "ERROR: root partition does not contain a root filesystem"
+			show_splash "ERROR: root partition does not contain a root filesystem\\nhttps://postmarketos.org/troubleshooting"
+			fail_halt_boot
+		esac
 	fi
 }
 
