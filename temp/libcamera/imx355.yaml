@@ -6,6 +6,12 @@ algorithms:
   - BlackLevel:
       blackLevel: 4096
   - Awb:
+  - Ccm:
+      ccms:
+        - ct: 6500
+          ccm: [ 1, 0, 0,
+                 0, 1, 0,
+                 0, 0, 1]
   - Lut:
   - Agc:
 ...
