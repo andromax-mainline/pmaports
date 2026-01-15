@@ -1,0 +1,96 @@
+# Maintainer: Minecrell <minecrell@minecrell.net>
+# Co-Maintainer: Nikita Travkin <nikita@trvn.ru>
+# Kernel config based on: arch/arm64/configs/msm8916_defconfig
+
+_flavor="msm8909"
+pkgname=linux-$_flavor
+pkgver=6.12.1
+# When making kernel config changes please also submit a PR to
+# https://github.com/msm8916-mainline/linux/blob/master/kernel/configs/pmos.config
+# since the kernel config is regenerated on upgrades and all changes will be lost!
+pkgrel=3
+pkgdesc="Mainline kernel fork for Qualcomm MSM8909/MSM8916/MSM8939 devices"
+arch="armv7"
+url="https://github.com/andromax-mainline/linux"
+license="GPL-2.0-only"
+options="!strip !check !tracedeps
+	pmb:cross-native
+	pmb:kconfigcheck-community
+	pmb:kconfigcheck-uefi
+	pmb:kconfigcheck-usb
+"
+makedepends="
+	bison
+	findutils
+	flex
+	gmp-dev
+	mpc1-dev
+	mpfr-dev
+	openssl-dev
+	perl
+	postmarketos-installkernel
+	python3
+"
+replaces="linux-postmarketos-qcom-msm8909 linux-postmarketos-qcom-msm8939"
+
+# Architecture
+case "$CARCH" in
+	arm*)    _carch="arm" ;;
+esac
+
+# Source
+_tag=v${pkgver//_/-}-msm8909
+source="
+	$pkgname-$_tag.tar.gz::$url/archive/$_tag.tar.gz
+	config-$_flavor.armv7
+"
+builddir="$srcdir/linux-${_tag#v}"
+
+prepare() {
+	default_prepare
+	cp "$srcdir/config-$_flavor.$CARCH" .config
+}
+
+build() {
+	unset LDFLAGS
+	make -j$(nproc) ARCH="$_carch" CC="${CC:-gcc}" \
+		KBUILD_BUILD_VERSION=$((pkgrel + 1 )) KBUILD_BUILD_USER=meow KBUILD_BUILD_HOST=meowstation
+}
+
+package() {
+	mkdir -p "$pkgdir"/boot
+
+	_install_targets="modules_install dtbs_install"
+
+	if [ -e "$builddir/arch/$_carch/boot/vmlinuz.efi" ]; then
+		# ZBOOT EFI decompressor for EFI booting
+		install -Dm644 "$builddir/arch/$_carch/boot/vmlinuz.efi" \
+			"$pkgdir/boot/linux.efi"
+
+		# Old GZIP'd kernel image for boot.img compatibility
+		install -Dm644 "$builddir/arch/$_carch/boot/vmlinuz" \
+			"$pkgdir/boot/vmlinuz"
+	elif [ "$_carch" = "arm64" ]; then
+		echo "WARNING: CONFIG_ZBOOT not enabled!"
+		install -Dm644 "$builddir/arch/$_carch/boot/Image.gz" \
+			"$pkgdir/boot/vmlinuz"
+	else
+		_install_targets="zinstall modules_install dtbs_install"
+	fi
+
+	make $_install_targets \
+		ARCH="$_carch" \
+		INSTALL_PATH="$pkgdir"/boot \
+		INSTALL_MOD_PATH="$pkgdir" \
+		INSTALL_MOD_STRIP=1 \
+		INSTALL_DTBS_PATH="$pkgdir"/boot/dtbs
+	rm -f "$pkgdir"/lib/modules/*/build "$pkgdir"/lib/modules/*/source
+
+	install -D "$builddir"/include/config/kernel.release \
+		"$pkgdir"/usr/share/kernel/$_flavor/kernel.release
+}
+
+sha512sums="
+ac323be3129a1c71e6ab76b4626e5900b58150bb6979532cbe325ee43efb8153b299fdba2d99cf00a395d7e2f5cedbb023132c9e0eda35abec64b4f778ec3288  linux-msm8909-v6.12.1-msm8909.tar.gz
+107c218d968c95a8c66575ac8d47dd808cfb97b48b85a0851aea56634e196ca6ca39390a51b6e7ff78da9c578bfd53c079c9f07e67d564b8e9d30953686786e2  config-msm8909.armv7
+"
