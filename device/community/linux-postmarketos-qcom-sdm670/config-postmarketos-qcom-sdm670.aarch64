@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm64 6.18.2 Kernel Configuration
+# Linux/arm64 6.18.5 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="clang version 21.1.6"
 CONFIG_GCC_VERSION=0
@@ -2922,7 +2922,6 @@ CONFIG_SPI_MEM=y
 # CONFIG_SPI_DESIGNWARE is not set
 # CONFIG_SPI_GPIO is not set
 # CONFIG_SPI_FSL_SPI is not set
-# CONFIG_SPI_MICROCHIP_CORE is not set
 # CONFIG_SPI_MICROCHIP_CORE_QSPI is not set
 # CONFIG_SPI_OC_TINY is not set
 # CONFIG_SPI_PL022 is not set
