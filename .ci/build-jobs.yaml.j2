@@ -6,7 +6,7 @@ stages:
 variables:
   CI_TRON_TEMPLATE_PROJECT: &ci-tron-template-project postmarketOS/ci-common
   CI_TRON_JOB_TEMPLATE_PROJECT_URL: $CI_SERVER_URL/$CI_TRON_TEMPLATE_PROJECT
-  CI_TRON_JOB_TEMPLATE_COMMIT: &ci-tron-template-commit 7c95b5f2d53533e8722abf57c73e558168e811f3
+  CI_TRON_JOB_TEMPLATE_COMMIT: &ci-tron-template-commit 08c304c8655e98d3e1219f193fbec223e58747a1
 
 include:
   - project: *ci-tron-template-project
@@ -134,7 +134,9 @@ prepare-{{ device.name }}:
           - KERNEL_VARIANT: $[[ matrix.KERNEL_VARIANT ]]
   variables:
     CI_TRON__PMB_BUILD_JOB: "prepare-{{ device.name }}{% if device.has_kernel_variants %}: [$KERNEL_VARIANT]{% endif %}"
-    CI_TRON_KERNEL_CMDLINE__DEVICEINFO: '{{ device.deviceinfo.kernel_cmdline }}'
+    # FIXME: cmdline is hardcoded here, but ideally would be built from
+    # fragments using generate-kernel-cmdline...
+    CI_TRON_KERNEL_CMDLINE__DEVICEINFO: 'console=tty1 console=ttyS0,115200 PMOS_FORCE_PARTITION_RESIZE psi=1'
 
 # Include the gitlab ci yml fragment, as found in
 # `device/$category/device-$devicename/gitlab-ci.yml.j2` which defines the jobs
