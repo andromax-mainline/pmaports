@@ -2,7 +2,7 @@
 # Kernel config based on: arch/arm64/configs/pinenote_defconfig
 maintainer="Antoine Martin (ayakael) <dev@ayakael.net>"
 pkgname=linux-pine64-pinenote
-pkgver=6.18.5
+pkgver=6.19.3
 _kernver=${pkgver%.*}
 pkgrel=0
 pkgdesc="Pine64 PineNote close to mainline fork"
@@ -25,15 +25,15 @@ makedepends="
 	perl
 	python3
 	xz
+	zstd
 "
 
 # Source
 _config="config-$_flavor.$arch"
-_commit="fe4f8068cda0b9f159803cee85254b69da099057"
+_commit="526524233b7156b194cf6f0869d2059dfa4c90e9"
 source="
 	https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/linux-$_kernver.tar.xz
 	$pkgname-$_kernver-$_commit.patch::https://ayakael.net/forge/linux-pinenote/compare/$_commit..v$_kernver.patch
-	pmos-kconfig-default.patch
 	$_config
 "
 # get patch releases
@@ -80,9 +80,8 @@ package() {
 }
 
 sha512sums="
-88599ffdec96d150c1feb9b261ba93bb0301a9d0e1ad6bef7aeab1f5372cbfc57d8b43c7e902bd8f76921d1dbd8189663c142ea869e51d0e2b483b150ee00fe0  linux-6.18.tar.xz
-f8443f7ff4262bb9361c9c29ef10b247367a80e7aebbae1efdf3aad545f95c0afc1e1c98f0b4d1e008086809c4ba2264b042178258dc4e1b5692714599e0cd26  linux-pine64-pinenote-6.18-fe4f8068cda0b9f159803cee85254b69da099057.patch
-a9ca621c6c2ee5a1377f11c6b13959d5b80454df1fff8a7783ec13937f9c860dc77fb1c084c7394e539340b0540af30c7a689802037eaaa82bc380505548bd89  pmos-kconfig-default.patch
-145267c7ce90e6bca1c48af1ed4aa2b302bd68e1e61efe0e5f28a12336eda9198e1bffe880d726c3057bbd98147d6442a9b256c60463c40928682fc2c0de1034  config-pine64-pinenote.aarch64
-2c07af94135abbb1fc118be061c7b39e3b692783e67231954eabe1ccac8948a126084e651d5648aebd6d58667ac82ba41264057df1cc81fcaa161df5eee56395  linux-pine64-pinenote-6.18.5.patch.xz
+01b29c7f4e5bc0c9802794c2cd027fece825f90417be229a71e60eefce530010d5d301749c54ae744e9d4a483518e769e2bb7e6e9209687681ad7fff11c3ed86  linux-6.19.tar.xz
+468c7d0ab2463adc8b9a56448ddd0819d56a5914b99baa921e2989ec1fdc5c414c02ef72e55691acc9b75ddd1afff5c17953fc2d2e1ed81210e5f7c40cd01765  linux-pine64-pinenote-6.19-526524233b7156b194cf6f0869d2059dfa4c90e9.patch
+7e8071c98f94b6cc5c6dae72e9045a3956145cae4b25ac07868379ddda0d22b17413136bff4ff92700a728d07c520c878fad163693fa1e6c3258b7deb0bdc400  config-pine64-pinenote.aarch64
+42cf563be07254942e3873a91241f423753d4a4dc70e18bc8ac210519c0642aef45ea91fdd0e359b7e428a87c5e091e8be3e1199ebeaf679bfc7a09af5e1206e  linux-pine64-pinenote-6.19.3.patch.xz
 "

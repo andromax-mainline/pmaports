@@ -1,7 +1,7 @@
 # Reference: <https://postmarketos.org/devicepkg>
 pkgname=device-lenovo-p1m
 pkgdesc="Lenovo Vibe P1m"
-pkgver=2
+pkgver=4
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -9,7 +9,7 @@ arch="aarch64"
 options="!check !archcheck"
 depends="postmarketos-base linux-lenovo-p1m mkbootimg"
 makedepends="devicepkg-dev"
-source="deviceinfo"
+source="deviceinfo kernel-cmdline.conf"
 
 build() {
 	devicepkg_build $startdir $pkgname
@@ -20,5 +20,6 @@ package() {
 }
 
 sha512sums="
-317dce3336dd3c229b363e49c5d9396a22117fce453d2825e05cb2f1292bdefe5c5a3c647bd6a2cf470f8b76620e24fad10c58e56ce018dd5259f29e79e70f05  deviceinfo
+42b949d5db866a9d441e142755eef282a01e2314751f3251a05ea138f2348840a6589eb447d2dd11c1737fe6ba340efeb8ad885cda493447dbfa3f8fa678cee8  deviceinfo
+d89b08ef9888faae6cb96a378421669e6119023307a3b5a109e18b7f9e2c70e1f8b240ba8f9b9d22d319fa28e416565d06074d34382f482c9b037b7ab3f4861c  kernel-cmdline.conf
 "

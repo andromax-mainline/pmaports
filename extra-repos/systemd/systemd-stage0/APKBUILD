@@ -1,11 +1,11 @@
 # Contributor: Jakub Panek <me@panekj.dev>
-# Co-Maintainer: jane400 <jane400@postmarketos.org>
+# Co-Maintainer: Achill Gilgenast <achill@achill.org>
 # Co-Maintainer: Oliver Smith <ollieparanoid@postmarketos.org>
-maintainer="Casey Connolly <kcxt@postmarketos.org>"
+maintainer="Clayton Craft <craftyguy@postmarketos.org>"
 pkgname=systemd-stage0
-pkgver=259
+pkgver=259.4
 _pkgver="${pkgver/_/-}"
-pkgrel=1
+pkgrel=0
 pkgdesc="Minimal systemd bootstrap package"
 url="https://github.com/systemd/systemd"
 # armhf: pmb#2618
@@ -104,5 +104,5 @@ package() {
 }
 
 sha512sums="
-ef46b13661df43e3cfbeee1bc22f0b1eb902e8ebe39c19868c465efd08b35a199c2a2cd9d8021a6bc4d692fa0c6e0eab3f13eecd6ce24dde81d3945464a25b50  systemd-259.tar.gz
+bf572f92b0b01ecaf08f36ea5e13a2c05a79e6c0c2d9ef191855d1b83ae791a2977841ca85541ace1d30945d5f879d703d390767f708294986b29aeda1449b1f  systemd-259.4.tar.gz
 "

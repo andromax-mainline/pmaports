@@ -1,25 +1,24 @@
-From 3280cfe4190c9ca33abfb777a29e69166244f922 Mon Sep 17 00:00:00 2001
-From: Alistair Francis <alistair@alistair23.me>
-Date: Sun, 14 Dec 2025 20:25:12 +1000
+From 058e19a3f5025501454a0237ff926b67cbcbef68 Mon Sep 17 00:00:00 2001
+From: Jane Rachinger <jane400@postmarketos.org>
+Date: Wed, 16 Apr 2025 14:21:09 +0200
 Subject: [PATCH] hack: wifi: Disable WPA-PSK-SHA256 for brcmfmac in AP mode
 
 This does the equivalent of purism's patch on librem 5 on pmOS,
 but doesn't affect other drivers.
 
 https://source.puri.sm/pureos/packages/network-manager/-/blob/pureos/latest/debian/patches/pureos/wifi-Disable-WPA-PSK-SHA256-in-AP-mode.patch
-Signed-off-by: Alistair Francis <alistair@alistair23.me>
 ---
- src/core/devices/wifi/nm-device-wifi.c         |  4 ++++
+ src/core/devices/wifi/nm-device-wifi.c         |  3 +++
  src/core/supplicant/nm-supplicant-config.c     | 18 +++++++++++++++++-
  src/core/supplicant/nm-supplicant-config.h     |  1 +
  .../supplicant/tests/test-supplicant-config.c  |  1 +
- 4 files changed, 23 insertions(+), 1 deletion(-)
+ 4 files changed, 22 insertions(+), 1 deletion(-)
 
 diff --git a/src/core/devices/wifi/nm-device-wifi.c b/src/core/devices/wifi/nm-device-wifi.c
-index 148caa11d6..c6e09cda63 100644
+index 2536622f1c..ca2f099e2a 100644
 --- a/src/core/devices/wifi/nm-device-wifi.c
 +++ b/src/core/devices/wifi/nm-device-wifi.c
-@@ -2940,12 +2940,15 @@ build_supplicant_config(NMDeviceWifi         *self,
+@@ -2929,12 +2929,14 @@ build_supplicant_config(NMDeviceWifi         *self,
      NMSettingWirelessSecurityPmf  pmf;
      NMSettingWirelessSecurityFils fils;
      NMTernary                     ap_isolation;
@@ -31,11 +30,10 @@ index 148caa11d6..c6e09cda63 100644
      g_return_val_if_fail(s_wireless != NULL, NULL);
  
 +    quirk_is_brcmfmac = nm_streq(nm_device_get_driver(NM_DEVICE(self)), "brcmfmac");
-+
      config = nm_supplicant_config_new(nm_supplicant_interface_get_capabilities(priv->sup_iface),
                                        nm_utils_get_connection_first_permissions_user(connection));
  
-@@ -3024,6 +3027,7 @@ build_supplicant_config(NMDeviceWifi         *self,
+@@ -3013,6 +3015,7 @@ build_supplicant_config(NMDeviceWifi         *self,
                  pmf,
                  fils,
                  nm_device_get_private_files(NM_DEVICE(self)),
@@ -44,7 +42,7 @@ index 148caa11d6..c6e09cda63 100644
              g_prefix_error(error, "802-11-wireless-security: ");
              goto error;
 diff --git a/src/core/supplicant/nm-supplicant-config.c b/src/core/supplicant/nm-supplicant-config.c
-index 56cc832b57..735edd1836 100644
+index 56cc832b57..5d89e1e478 100644
 --- a/src/core/supplicant/nm-supplicant-config.c
 +++ b/src/core/supplicant/nm-supplicant-config.c
 @@ -934,6 +934,7 @@ nm_supplicant_config_add_setting_wireless_security(NMSupplicantConfig
@@ -67,9 +65,9 @@ index 56cc832b57..735edd1836 100644
       */
      is_ap = nm_streq0(mode, NM_SETTING_WIRELESS_MODE_AP);
  
-+    /* Some Librem 5 have a sparklan wifi card, which cannot use
++    /* Some Librem 5 have a sparklan wifi card, which cannot use 
 +     * WPA-PSK-SHA256 in AP mode. This quirk shouldn't be in this
-+     * highlevel program but rather in the kernel, but this was
++     * highlevel program but rather in the kernel, but this was 
 +     * faster and unbreaks AP for the Librem 5 without affecting
 +     * other drivers. I sadly wasn't able to find a matching
 +     * bugzilla entry in the kernel. Without more details I'm scoping
@@ -118,5 +116,5 @@ index 416fe0054f..d934ba1b58 100644
      } else {
          success = nm_supplicant_config_add_no_security(config, &error);
 -- 
-2.51.1
+2.53.0
 

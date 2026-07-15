@@ -17,9 +17,7 @@ deviceinfo_rootfs_image_sector_size="4096"
 # Bootloader related
 deviceinfo_flash_method="fastboot"
 
-deviceinfo_kernel_cmdline="console=ttyFIQ2,115200n8 no_console_suspend systempart=/dev/disk/by-partlabel/system datapart=/dev/disk/by-partlabel/userdata"
 deviceinfo_generate_bootimg="true"
-deviceinfo_bootimg_qcdt="false"
 deviceinfo_flash_offset_base="0x40078000"
 deviceinfo_flash_offset_kernel="0x00008000"
 deviceinfo_flash_offset_ramdisk="0x01f88000"

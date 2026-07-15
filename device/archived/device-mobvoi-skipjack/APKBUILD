@@ -2,7 +2,7 @@
 # Reference: <https://postmarketos.org/devicepkg>
 pkgname=device-mobvoi-skipjack
 pkgdesc="Mobvoi Ticwatch C2"
-pkgver=4
+pkgver=6
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -20,7 +20,7 @@ subpackages="
 	$pkgname-nonfree-firmware-wcnss:nonfree_firmware_wcnss
 "
 makedepends="devicepkg-dev"
-source="deviceinfo"
+source="deviceinfo kernel-cmdline.conf"
 
 build() {
 	devicepkg_build $startdir $pkgname
@@ -49,5 +49,6 @@ nonfree_firmware_wcnss() {
 }
 
 sha512sums="
-a9fb2617015cb201d4be52619f4d3e2714a25452472643b2e71a04ebfa3a5e73191e87f4b26f80c574b86f59e12ba6500bad4e0251ba28060e8ace8dd0f9628c  deviceinfo
+a8c09bf0b22857c6e212737b2088b5b6a395f809a6271a3a42b7dd738626454639581008915d4f61acec77fa4f74b3b3822987e7ab507eb45d4f7fb51a2b9759  deviceinfo
+d39374c1c0474ebf153045b2957bc76ee2f007f6454a96b80fb0ae97661f0723e5a6527e77c51a27daf3ffce537bc13b633c40d130e86ae6c66c0e06d92c46b3  kernel-cmdline.conf
 "

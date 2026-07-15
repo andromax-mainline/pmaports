@@ -2,6 +2,7 @@
 # Copyright 2025 Pablo Correa Gomez
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import argparse
 from functools import cached_property
 from pathlib import Path
 from typing import Self
@@ -43,10 +44,6 @@ class Device:
 
         return Template(fragment_tmpl).render(device=self)
 
-    @property
-    def is_present_in_ci(self):
-        return bool(self.gitlab_ci_fragment)
-
     @cached_property
     def pmaports_path(self) -> Path:
         # Find the root of pmaports
@@ -72,11 +69,11 @@ class Device:
 
     @property
     def testing_dependencies(self) -> set[str]:
-        # TODO: Source this from the APKGBUILD
+        # TODO: Source this from the APKBUILD
         return {"postmarketos-mkinitfs-hook-ci"}
 
     @cached_property
-    def package_dependencies(self) -> list[str]:
+    def package_dependencies(self) -> set[str]:
         # HACK: Work around a bug in depends_recurse which prevents listing all the dependencies
         # Bug: https://gitlab.postmarketos.org/postmarketOS/pmbootstrap/-/issues/2623
         return {"postmarketos-initramfs"}
@@ -88,7 +85,7 @@ class Device:
         return self.package_dependencies | self.testing_dependencies
 
     @cached_property
-    def kernels(self) -> list[str] | None:
+    def kernel_variants(self) -> list[str]:
         kernels = []
 
         subpackage_prefix = f"device-{self.codename}-kernel-"
@@ -101,10 +98,7 @@ class Device:
             if kernel_name != "none":
                 kernels.append(kernel_name)
 
-        if kernels:
-            return kernels
-        else:
-            return None
+        return kernels
 
     @cached_property
     def deviceinfo(self) -> dict[str, Deviceinfo] | Deviceinfo:
@@ -117,7 +111,7 @@ class Device:
 
     @property
     def has_kernel_variants(self):
-        return len(self.kernels) > 0
+        return len(self.kernel_variants) > 0
 
     @classmethod
     def supported_devices(cls) -> dict[Path, Self]:
@@ -131,7 +125,7 @@ class Device:
                     dev = cls(device.codename)
 
                     # Ignore devices that do not have a gitlab ci fragment,
-                    # since we won't be able to make use of them
+                    # since adding that fragment is how we mark them as DUTs
                     if not dev.gitlab_ci_fragment:
                         continue
 
@@ -151,13 +145,12 @@ class ArchTagSet(set):
 
 
 if __name__ == "__main__":
-    # Needs input to output if we should create the jobs
-    if len(sys.argv) != 3:
-        print("usage: generate_build_jobs.py TEMPLATE CHILD_PIPELINE")
-        print(sys.argv)
-        sys.exit(1)
-    template = sys.argv[1]
-    child_pipeline = sys.argv[2]
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument("--template", default=".ci/build-jobs.yaml.j2", help="Jinja2 input template")
+    parser.add_argument("--output", default=".ci/build-jobs.yaml", help="output pipeline")
+    args = parser.parse_args()
 
     # pmb logging has to be initialized for later pmb commands to work, setting
     # to /dev/null since we don't care about the output. Later this could
@@ -167,10 +160,11 @@ if __name__ == "__main__":
 
     # Load context
     sys.argv = ["pmbootstrap.py", "chroot"]
-    args = pmb.parse.arguments()
+    _ = pmb.parse.arguments()
 
     # Get the list of supported devices
     supported_devices = Device.supported_devices()
+    print(f"Supported devices: {[d for d in supported_devices.values()]}")
 
     archs = ArchTagSet()
     devices_under_test = set()
@@ -185,8 +179,6 @@ if __name__ == "__main__":
 
         if path.name != "APKBUILD":
             continue
-        elif not path.exists():
-            continue  # APKBUILD was deleted
         apkbuild = pmb.parse.apkbuild(path)
         packages_modified.add(apkbuild['pkgname'])
         archs.update(apkbuild["arch"])
@@ -211,7 +203,7 @@ if __name__ == "__main__":
     print(f"Architectures to build: {archs}")
     print(f"Devices under test: {devices_under_test}")
 
-    with open(template) as f:
+    with open(args.template) as f:
         rendered = Template(f.read()).render(
             archs=archs,
             devices_under_test=devices_under_test,
@@ -227,5 +219,5 @@ if __name__ == "__main__":
                 Arch.loongarch64: "loongarch64",
             },
         )
-        with open(child_pipeline, "w") as fw:
+        with open(args.output, "w") as fw:
             fw.write(rendered)

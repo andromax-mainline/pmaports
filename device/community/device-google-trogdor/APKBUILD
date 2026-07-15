@@ -3,8 +3,8 @@
 maintainer="Alicja Michalska <ellyqw@mainlining.org>"
 pkgname=device-google-trogdor
 pkgdesc="Google Trogdor Chromebooks"
-pkgver=8
-pkgrel=1
+pkgver=11
+pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
 arch="aarch64"
@@ -17,10 +17,12 @@ depends="
 	postmarketos-cros-common
 	soc-qcom-sc7180
 "
+
 makedepends="devicepkg-dev"
 subpackages="$pkgname-nonfree-firmware:nonfree_firmware"
 source="
 	deviceinfo
+	kernel-cmdline.conf
 	modules-initfs
 	99-google-trogdor-accel.rules
 "
@@ -55,7 +57,8 @@ openrc() {
 }
 
 sha512sums="
-386d66d005f19fc2518b4169713177714304663a54a2504229e7a1e00b353d2a47d82e0d99ee20aa1049aadffddd648e328b4f0062103f9661c988ccef34a76f  deviceinfo
-ef0257928f28aff25e6c625fabfd0942b01d4d86f1b523212ca825cf80f8b7a6c20ff17bfb02cb19f2a5d8787326ba22ad560a957c8d3c38b9ec70f1e16f9117  modules-initfs
+40911658bfc9b70dd96c70b71ddbece4f08d0e618f0ad7816e48ce66f683dc11ffe7d57d16822228f206e0576db7832d96b66659b3a72f3f4aa7959dd8cb82e5  deviceinfo
+14b67d4842a2f1cc637c56ca50a1f6d4a18a4e0524ce4cd9cdd9d0becbf7c4d9dcb9be33251c31bf6e8c452c1a08d6c113b231980593a6b418d731f09ea8f9f4  kernel-cmdline.conf
+558623af5a636401af3f99ec963b8cee6eaf8b59b52c9c7ce45d41693663d340305e0733857e44398053ce0ecc24f0d48b478bf591cca5feb3982a58cdf6a761  modules-initfs
 c9e0be258575e2af67509b55d373a5e4da00ba338e6ff30859926e20aabe60a0ea657002e5b47bd579b55ff3be75a772c1f63d3adc05feb0a0d23c1fc52292b8  99-google-trogdor-accel.rules
 "

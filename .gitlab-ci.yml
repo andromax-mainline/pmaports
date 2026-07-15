@@ -16,6 +16,9 @@ variables:
   # seems like a reasonable balance. If this is too low, git merge-base (from ci/
   # common.py) can fail
   GIT_DEPTH: 100
+  # So that anything that runs install_pmbootstrap and tries to import pmb module
+  # can find it.
+  PYTHONPATH: "/tmp/pmbootstrap"
 
 # This defines the rules for when a pipeline should run.
 workflow:
@@ -59,6 +62,18 @@ ruff:
     - .ci/lib/gitlab_prepare_ci.sh
     - .ci/ruff.sh
 
+# testcases typechecking
+mypy:
+  stage: lint
+  rules:
+    - if: *mr_rule
+      changes:
+        - .ci/**/*
+        - .gitlab-ci.yml
+  script:
+    - .ci/lib/gitlab_prepare_ci.sh
+    - .ci/mypy.sh
+
 # shellcheck and various grep checks
 shellcheck-grep:
   stage: lint
@@ -85,7 +100,7 @@ pytest-commits:
   script:
     - .ci/lib/gitlab_prepare_ci.sh
     - .ci/pytest.sh
-    - .ci/commits.sh
+    - .ci/check-changed-versions.sh
   artifacts:
     when: on_failure
     paths:
@@ -178,7 +193,7 @@ generate-build-jobs:
     # HACK: Make the pmb library happy to use the currently-cloned pmaports repo
     - mkdir -p /root/.local/var/pmbootstrap/cache_git/ && ln -s $PWD /root/.local/var/pmbootstrap/cache_git/pmaports
 
-    - PYTHONPATH=/tmp/pmbootstrap/ .ci/lib/generate_build_jobs.py .ci/build-jobs.yaml.j2 .ci/build-jobs.yaml
+    - .ci/lib/generate_build_jobs.py
 
   artifacts:
     paths:
@@ -208,6 +223,8 @@ build-docs:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
+        - .ci/build-docs.sh
+        - deviceinfo_schema.toml
         - docs/**
 
 deploy-docs:
@@ -218,6 +235,7 @@ deploy-docs:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PROJECT_NAMESPACE == "postmarketOS"
       changes:
+        - deviceinfo_schema.toml
         - docs/**
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: never

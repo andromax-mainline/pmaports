@@ -1,7 +1,7 @@
 # Reference: <https://postmarketos.org/devicepkg>
 pkgname=device-samsung-apexq
 pkgdesc="Samsung Galaxy S Relay 4G"
-pkgver=2
+pkgver=4
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -9,7 +9,7 @@ arch="armhf"
 options="!check !archcheck"
 depends="postmarketos-base linux-samsung-apexq mkbootimg"
 makedepends="devicepkg-dev"
-source="deviceinfo"
+source="deviceinfo kernel-cmdline.conf"
 subpackages="$pkgname-nonfree-firmware:nonfree_firmware"
 
 build() {
@@ -28,5 +28,6 @@ nonfree_firmware() {
 
 
 sha512sums="
-c4afc9ec72ab5bc023445442a61f4de219c7fde4fd380648304bee05a1a4929b3862cf259dbdf4b16d4b48ff7b3a30d4f4e052c10ab138a4446445acf34cd10a  deviceinfo
+79c85e1004c8d6436f4cdd022399a7c8497e5d878a866d54ebf5bbaa08e6e5f69da2f33ce602884470619c2cf7572cddc3a25115b9dcdd02194b576124dc6927  deviceinfo
+223035445c1f9e30229d5543c55d6a090edbcdd694a30653308ad66bdec32f48d984b09c0e89b9df3fb70e113eb8c797400347850c58706d8838735e97f7df85  kernel-cmdline.conf
 "

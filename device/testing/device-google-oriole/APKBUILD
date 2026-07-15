@@ -1,7 +1,7 @@
 maintainer="Ingo Reitz <9l@9lo.re>"
 pkgname=device-google-oriole
 pkgdesc="Google Pixel 6"
-pkgver=3
+pkgver=5
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -16,6 +16,7 @@ depends="
 makedepends="devicepkg-dev"
 source="
 	deviceinfo
+	kernel-cmdline.conf
 	modules-initfs
 "
 
@@ -28,6 +29,7 @@ package() {
 }
 
 sha512sums="
-375df0d816bfaa396541ca96f866f0a5fcb9be11fa3d0932aa8df014539f1206d0e28678b8d90aa96c263e5c5bce9000a4ff8400f2dac6bd180a83ebf9374d64  deviceinfo
+04353d1b1615fc95dbdac6ee1d25723ec0097968aea76c5ed464379a28f75429127c3c12151a0ef255297c4c0c73044ea036de736f00d71f9d82a3e4b12d5dee  deviceinfo
+9ed1246237067259c1e533bbbda28de56836a8ebe2fe9dc079f038552062be6b7daf9e2f46261d293d7eb58fa2d3d52d516f98c309f6adcd01d910a0e436cfcf  kernel-cmdline.conf
 a5171dc7a4221a5a63c02820bac1e372c557cee72db9f777099f67eb272595fad6019f876cb47dd1bf455eeb3a45a74f215f2e8c44a6e1bf7cf3d7d9f49d98ad  modules-initfs
 "

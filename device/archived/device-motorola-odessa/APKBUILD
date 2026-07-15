@@ -2,7 +2,7 @@
 # Reference: <https://postmarketos.org/devicepkg>
 pkgname=device-motorola-odessa
 pkgdesc="Motorola Moto G9 Plus"
-pkgver=3
+pkgver=5
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -18,6 +18,7 @@ makedepends="
 "
 source="
 	deviceinfo
+	kernel-cmdline.conf
 "
 
 build() {
@@ -29,5 +30,6 @@ package() {
 }
 
 sha512sums="
-c6f67d64e1ca8aee1c9444a815ca0b88f9c5b54678ffb2dc1d7ac05193df0210caee5920ee691ea4d0f3114485569dc2bcd55d2efa3cf4c13b007a894c7a6933  deviceinfo
+8bca8a89f266de7566a27d5980b10ef4fcb19f08992c8aff4ebd5b49e556ce895f951f745cf2c7ec6c414451d9bc394fe7e13b58abf5b64ff4874e6bdc3dad86  deviceinfo
+aa92ec426209478e5c6ac90ae5a15398ec383a0c276eeb325ef0cf40240cb4d95c960fb9385a3dda50fa425fa11e869e0759afd3c842a647527679b075edc4fc  kernel-cmdline.conf
 "

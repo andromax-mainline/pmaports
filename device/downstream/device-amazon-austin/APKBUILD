@@ -1,7 +1,7 @@
 # Reference: <https://postmarketos.org/devicepkg>
 pkgname=device-amazon-austin
 pkgdesc="Amazon Fire 7 (2017)"
-pkgver=3
+pkgver=5
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -14,7 +14,7 @@ depends="
 	msm-fb-refresher
 "
 makedepends="devicepkg-dev"
-source="deviceinfo"
+source="deviceinfo kernel-cmdline.conf"
 
 build() {
 	devicepkg_build $startdir $pkgname
@@ -25,5 +25,6 @@ package() {
 }
 
 sha512sums="
-3557aa0019a722174d057f126060e2c46263192aaf904d6c2f985499584f9c83678895b07b90450851b2d0256b1dc6f5a0ee55e90b7498ce8900a13f1fd3ba51  deviceinfo
+0aadbcf76a29f04081f4d262681f04fd4d95861bd0d6a8ef04a841a8d72ddc518546641b57b37b21df0f55748a67c06198ef254d559a3a3abc596d1d959e516a  deviceinfo
+45ef083cf5cb6338d045f11b0d7a0b372314a32506c29052daf4edb4516f3cd023ba98a48af012e4509707eb3663298409658a37b383c022d7dce874488832d6  kernel-cmdline.conf
 "

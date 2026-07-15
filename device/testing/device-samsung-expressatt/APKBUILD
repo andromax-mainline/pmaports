@@ -1,7 +1,8 @@
 # Reference: <https://postmarketos.org/devicepkg>
+maintainer=""
 pkgname=device-samsung-expressatt
 pkgdesc="Samsung Galaxy Express SGH-I437"
-pkgver=4
+pkgver=6
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -14,7 +15,7 @@ subpackages="
 	$pkgname-kernel-stable:kernel_stable
 	$pkgname-kernel-lts:kernel_lts
 "
-source="deviceinfo"
+source="deviceinfo kernel-cmdline.conf"
 
 build() {
 	devicepkg_build $startdir $pkgname
@@ -44,5 +45,6 @@ kernel_lts() {
 }
 
 sha512sums="
-fcb58fe636a08ab6f82bb60d74f540b66d072f6556e07db9043a30ccd67fe6926713714f6d25832219f545f3b5773cfb92aac9a33e3666d32503f1f9d9e222e3  deviceinfo
+7847d27def33bac03c92813da0e98c71f159139ad7b4e3d072ffd5ea56953b5c6cb55657809c18f10a77f99c10d01eeb56554ccc892a8bb9ed99d0d366070b86  deviceinfo
+9800dab94aecbb3ad4f40ba81e8e3cf2886fd824661b334fcf098d4578d009a1533c9082e8809c8995f5f9994df3c1c4bf72c215da01c6eacea2d4210713d413  kernel-cmdline.conf
 "

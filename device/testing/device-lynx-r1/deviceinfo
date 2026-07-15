@@ -18,12 +18,9 @@ deviceinfo_drm="true"
 
 # Bootloader related
 deviceinfo_flash_method="fastboot"
-deviceinfo_kernel_cmdline="console=ttyMSM0,115200n8 earlycon earlyprintk loglevel=15 pd_ignore_unused clk_ignore_unused pmos.debug-shell"
 deviceinfo_generate_bootimg="true"
 deviceinfo_flash_pagesize="4096"
 deviceinfo_header_version="2"
-deviceinfo_bootimg_qcdt="false"
-deviceinfo_append_dtb="false"
 deviceinfo_dtb="qcom/sm8250-lynx-r1"
 deviceinfo_flash_offset_dtb="0x01f00000"
 deviceinfo_flash_offset_base="0x00000000"

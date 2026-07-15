@@ -108,7 +108,7 @@ def get_base_commit() -> str:
     return commit
 
 
-def get_changed_files(removed=True):
+def get_changed_files(removed=False):
     """ Get all changed files and print them, as well as the branch and the
         commit that was used for the diff.
         :param removed: also return removed files (default: True)
@@ -133,13 +133,20 @@ def get_changed_files(removed=True):
 
 def get_changed_packages(skip_archived: bool = False):
     ret = set()
-    for file in get_changed_files():
+    for file in get_changed_files(removed=True):
         dirname, filename = os.path.split(file)
 
         # Skip files:
         # * in the root dir of pmaports (e.g. README.md)
         # * path with a dot (e.g. .ci/, device/.shared-patches/)
-        if not dirname or file.startswith(".") or "/." in file or skip_archived and dirname.startswith("device/archived"):
+        # * documentation
+        if (
+                not dirname
+                or file.startswith(".")
+                or "/." in file
+                or skip_archived and dirname.startswith("device/archived")
+                or dirname == "docs"
+        ):
             continue
 
         if filename != "APKBUILD":
@@ -175,9 +182,9 @@ def get_changed_kernels(skip_archived: bool = False):
             ret += [pkgname]
     return ret
 
-def get_changed_devices():
+def get_changed_devices(skip_archived: bool = False):
     ret = []
-    for pkgname in get_changed_packages():
+    for pkgname in get_changed_packages(skip_archived):
         if pkgname.startswith("device-"):
             ret += [pkgname]
     return ret

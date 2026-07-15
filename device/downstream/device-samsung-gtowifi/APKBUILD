@@ -1,7 +1,7 @@
 # Reference: <https://postmarketos.org/devicepkg>
 pkgname=device-samsung-gtowifi
 pkgdesc="Samsung Galaxy Tab A 8.0 2019"
-pkgver=3
+pkgver=5
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -14,7 +14,7 @@ depends="
 	postmarketos-base
 "
 makedepends="devicepkg-dev"
-source="deviceinfo"
+source="deviceinfo kernel-cmdline.conf"
 
 subpackages="$pkgname-nonfree-firmware:nonfree_firmware"
 
@@ -33,5 +33,6 @@ nonfree_firmware() {
 }
 
 sha512sums="
-efaa86b163d77e297bff0c36eedb918d04b5ec6f738281151f4c8f58c3179267303bd03544b8adfe83abddc22ef1bbe8907e77821577f50e55d100b3dc7e611a  deviceinfo
+9f8abe25b5341d8eebf9f95c7eaf9881e5a3339dd9d25ea8e1ac6b77060c94e8d0a16dc7891caffa682a5fc3af7f2ff2889836bd184d4048c158c0484fc86293  deviceinfo
+4f92b54a907e284c5077bbfeebbbd62f61aba441cc3cc36b063af263a1b39533f6de83744b98cca3d06d8b6a63b20d7c974b9413e7afdd9dbd860f9f1d2bcb59  kernel-cmdline.conf
 "

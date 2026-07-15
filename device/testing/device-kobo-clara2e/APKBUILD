@@ -2,7 +2,7 @@
 maintainer="Andreas Kemnade <andreas@kemnade.info>"
 pkgname=device-kobo-clara2e
 pkgdesc="Kobo Clara 2E"
-pkgver=3
+pkgver=6
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -22,6 +22,7 @@ makedepends="devicepkg-dev"
 
 source="
 	deviceinfo
+	kernel-cmdline.conf
 	modules-initfs
 "
 
@@ -34,6 +35,7 @@ package() {
 }
 
 sha512sums="
-2d041367f1026910b27480d7c820abc2878704980c3f2e94115cdc8ca204d73afb34c40e0ea009c39431eb471d4bcc43a4bbc42401594a660529a8ea00c0fc00  deviceinfo
-90da9f4f7833af6286c7dad81c5601bb2e35f814f501d02d9e37a80f35c453ae8b8a5c49ed36fcb5b35eef1d81280679a82ef80a60b4bca373a33b0b8f881511  modules-initfs
+300986c4a58b6c7568bccdfb6927ca7456cf05c39049b189e2a727bd422b3777228e0844823ad0edd54cf1d4da78d95d3048f89c877949267fc5122fdbedd0e0  deviceinfo
+b4ab1b5ce58c0c46e655cfe898ff28897abae0e0ba2d927613f7ce2b21fb3fdb3ffaa8b5b260daa9baebef49f71e3c068932fe255ffa420d6ecc9c9e99c67aca  kernel-cmdline.conf
+431a126cc1d544e04d1b548bef55d2c1b470e622bdf8313e368e8413d77c30e316c2d8265a0ccb141db2f18ba6aa0c732dd215df82a1254993e0bca498980b04  modules-initfs
 "

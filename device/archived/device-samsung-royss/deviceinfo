@@ -17,9 +17,7 @@ deviceinfo_dev_touchscreen="/dev/input/event1"
 
 # Bootloader related
 deviceinfo_flash_method="heimdall-bootimg"
-deviceinfo_kernel_cmdline="androidboot.hardware=qcom loglevel=1 vmalloc=200M"
 deviceinfo_generate_bootimg="true"
-deviceinfo_bootimg_qcdt="false"
 deviceinfo_flash_offset_base="0x00200000"
 deviceinfo_flash_offset_kernel="0x00008000"
 deviceinfo_flash_offset_ramdisk="0x01300000"

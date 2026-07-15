@@ -1,10 +1,10 @@
 # Reference: <https://postmarketos.org/devicepkg>
 # Co-Maintainer: Antoni Aloy <aaloytorrens@gmail.com>
-maintainer="Mighty17 <mightymb17@gmail.com>"
+maintainer="Mithil Bavishi <bavishimithil@gmail.com>"
 pkgname=device-samsung-espresso7
 pkgdesc="Samsung Galaxy Tab 2 (7.0 inch)"
-pkgver=5
-pkgrel=0
+pkgver=7
+pkgrel=1
 url="https://postmarketos.org"
 license="MIT"
 arch="armv7"
@@ -31,5 +31,5 @@ nonfree_firmware() {
 }
 
 sha512sums="
-981ca85786631b03acd7544138a7e50707dc0138b9c65321c03d240e32e2c2830e25d8837549b0cbebb1d539afd2b2cb9c6042e161e0a96df947533c56c72f54  deviceinfo
+b9ff401a7ea1a2e9037cd5ef392a6a5eafbb6bb164d1a6ba7ac74bf39de3cddc92db536e0e3fed83a7b74a6036cad3c1703e4b6791fef43d3b560a776e09cfe3  deviceinfo
 "

@@ -2,7 +2,7 @@
 # Reference: <https://postmarketos.org/devicepkg>
 pkgname=device-oneplus-instantnoodlep-downstream
 pkgdesc="OnePlus 8 Pro (Downstream)"
-pkgver=2
+pkgver=4
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -17,7 +17,7 @@ makedepends="
 	devicepkg-dev
 	dtc
 "
-source="deviceinfo"
+source="deviceinfo kernel-cmdline.conf"
 
 build() {
 	devicepkg_build $startdir $pkgname
@@ -28,5 +28,6 @@ package() {
 }
 
 sha512sums="
-13eff1427505807e75f05046122063a2a6abfb5231bf85fc56829a8de1a7de1a1a59ae0eedb553ad4f8cd5de49a8d2eb51d6bbda97d942ed95243819b64ccc2c  deviceinfo
+0c4c09857d090ea3f3a15eacfe3c0e62951b4a2706154956b0aa6e3a4dc34398de50ea661772fb460b550f0938ea70b8f78ca7b6d9400cda15d56740928f79b5  deviceinfo
+5f52b2b7ebb4f0b79fc7211f8439134138acd517f3672a844af9726343c96a072f38d24313ee97d9f1524d5d3bc0c06f73b3272d81c9b2bea8c5a90fb687592e  kernel-cmdline.conf
 "

@@ -1,7 +1,7 @@
 # Reference: <https://postmarketos.org/devicepkg>
 pkgname=device-amazon-douglas
 pkgdesc="Amazon Fire HD 8 (2017)"
-pkgver=2
+pkgver=4
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -9,7 +9,7 @@ arch="aarch64"
 options="!check !archcheck"
 depends="postmarketos-base linux-amazon-douglas mkbootimg"
 makedepends="devicepkg-dev"
-source="deviceinfo"
+source="deviceinfo kernel-cmdline.conf"
 
 build() {
 	devicepkg_build $startdir $pkgname
@@ -20,5 +20,6 @@ package() {
 }
 
 sha512sums="
-9bf30629b411fda81f4b8b7b137e45ca42e96972c159df26dd549c6f2c058ca7488ebbc9e848a3fd2c40af878757c929500375d4b6b09c00401ce8235e61a1e8  deviceinfo
+36a61cd87dddb282aa34c667888fc590669f75115066b6c57421b03a5818c8982c48a06ececd4fec83efdc70795abc4715a23b2871590a55b041be7d87bb1637  deviceinfo
+97bcf780297994ed08c54758816cf85a8054d8a3e4e12eb04fcfdd356fdad7bae3d48ed46fbb3206613db3463ecea4fcef824477fc023955d5fd86fa1b4d7505  kernel-cmdline.conf
 "

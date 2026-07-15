@@ -2,7 +2,7 @@
 maintainer="Anri Dellal <anridellal@gmail.com>"
 pkgname=device-nobby-230
 pkgdesc="Nobby 230"
-pkgver=2
+pkgver=4
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -12,6 +12,7 @@ depends="soc-sprd-audio-sc8830 msm-fb-refresher postmarketos-base linux-nobby-23
 makedepends="devicepkg-dev"
 source="
 	deviceinfo
+	kernel-cmdline.conf
 "
 
 build() {
@@ -24,5 +25,6 @@ package() {
 
 
 sha512sums="
-603dcaec039b8381a9692e05ce30ad76e9f22db996509510ef474668673a0e5b8c24b97da5113baa5139089602da7bc2d916885af980d8256d9df4db358f522f  deviceinfo
+0532fabe19931c90253e958b5756df91812cfd5c81a643923a36b2f730b8d749ad7d6062507aff59eddcfc24d36f8452a439f159ec53d4b9acede80205660175  deviceinfo
+41dd6dbff0ea7cfa308dc533b6c0b85cf280a89e23017e573e263f67e9802c77a0a795f3e163624f96ee7d404450b88d9aaaa599fb2ac4f136f36c18a42be1a4  kernel-cmdline.conf
 "

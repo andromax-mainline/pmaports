@@ -23,8 +23,6 @@ _report_ci() {
 DID_FAIL=0
 
 echo "==> Running postmarketos-mkinitfs-hook-ci"
-echo "==> disabling dmesg on console"
-dmesg -n 2
 
 for f in /usr/libexec/pmos-tests-initramfs/*; do
 	printf '\n==> Running test "%s"\n\n\n' "$f"
@@ -35,10 +33,6 @@ for f in /usr/libexec/pmos-tests-initramfs/*; do
 		DID_FAIL=1
 	fi
 done
-
-# FIXME: probably should be the initial loglevel.
-echo "==> re-enabling dmesg on console at loglevel 8"
-dmesg -n 8
 
 if [ $DID_FAIL -ne 0 ]; then
 	_report_ci "==> PMOS-CI-FAIL"
@@ -51,3 +45,7 @@ fi
 # in a row, send a whole bunch just to be sure
 # In the worst case it will timeout.
 _report_ci "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+# CI tests done, disabling console and looping forever
+dmesg -n 1
+fail_halt_boot

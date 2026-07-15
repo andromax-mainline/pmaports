@@ -10,14 +10,12 @@ deviceinfo_arch="aarch64"
 
 # Device related
 deviceinfo_chassis="handset"
-deviceinfo_external_storage="false"
 deviceinfo_screen_width="1080"
 deviceinfo_screen_height="1920"
 deviceinfo_dev_touchscreen="/dev/input/event6"
 
 # Bootloader related
 deviceinfo_flash_method="fastboot"
-deviceinfo_kernel_cmdline="androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 boot_cpus=0-3"
 deviceinfo_generate_bootimg="true"
 # deviceinfo_bootimg_qcdt="false"
 deviceinfo_flash_offset_base="0x00000000"

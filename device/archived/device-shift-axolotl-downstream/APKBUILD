@@ -3,7 +3,7 @@
 # Reference: <https://postmarketos.org/devicepkg>
 pkgname=device-shift-axolotl-downstream
 pkgdesc="SHIFT6mq downstream"
-pkgver=2
+pkgver=4
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -16,7 +16,7 @@ depends="
 	postmarketos-base
 "
 makedepends="devicepkg-dev"
-source="deviceinfo"
+source="deviceinfo kernel-cmdline.conf"
 
 build() {
 	devicepkg_build $startdir $pkgname
@@ -27,5 +27,6 @@ package() {
 }
 
 sha512sums="
-2727f828ae47e52f14bf34ba983a025670f39a4ed82f98e080b8ae3f176274e9c2ed1dad58339e0fd11d7784ffe2aac953cb0af104e36f2fba021c46206ef4b9  deviceinfo
+7ed68d5d8195603cd311a1148d05ed82bc77d4030fd3de4e2e627b5db041da6e89a403bfad7b6a73ef3223f30d6671a1ad1ef34c44e8cf2273b69de2fbd7e197  deviceinfo
+3cf4bdb2652b1edd0bff7c6f2c4084bfddc00aca17055d3f7a6bf7434935d187c090ca55a38ee0c2f2da8db21bc903d7d6a63346bb5a87397225a01764d20691  kernel-cmdline.conf
 "

@@ -2,7 +2,7 @@
 maintainer="Abdullah AL Shohag <HackerShohag@outlook.com>"
 pkgname=device-xiaomi-lancelot
 pkgdesc="Xiaomi Redmi 9"
-pkgver=1
+pkgver=3
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -16,6 +16,7 @@ depends="
 makedepends="devicepkg-dev"
 source="
 	deviceinfo
+	kernel-cmdline.conf
 "
 
 build() {
@@ -27,5 +28,6 @@ package() {
 }
 
 sha512sums="
-5359e660135fcb46e3e8a2286efe26cae164daa8e9a2ad20479f694d872c1d4520a04cb524f98c7d0824fed2d3d43badc319554b5637965dd5452804570cb9e5  deviceinfo
+e61734cd0e2c6123cb033939e02471b8f1b16c96cacac2f5613bdeaa17f4892288236cc60b3fc6752e004df3ef4e2b46583a9f954c087babb6d68bc5b7f41961  deviceinfo
+e245ec464934acce55b2c8e5a9bdb51e6542dbb018c9a08bda365dac72ea9d2b3d4547ab96db9c244bfe90cc531282fe64e4105b41e6d9fec2fd68c0f2143b05  kernel-cmdline.conf
 "

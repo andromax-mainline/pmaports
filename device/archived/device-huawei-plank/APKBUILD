@@ -3,7 +3,7 @@
 maintainer="gtrxAC <gtrxac2@gmail.com>"
 pkgname=device-huawei-plank
 pkgdesc="Huawei Honor 7"
-pkgver=3
+pkgver=5
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -15,7 +15,7 @@ depends="
 	postmarketos-base
 "
 makedepends="devicepkg-dev"
-source="deviceinfo"
+source="deviceinfo kernel-cmdline.conf"
 
 build() {
 	devicepkg_build $startdir $pkgname
@@ -26,5 +26,6 @@ package() {
 }
 
 sha512sums="
-92ebb3f14228b9163a20c712ee86c3d0b384601bfaa8f50d464ab1a307555c567a5bee12868aa51f4001b5d68e33288008de33324a21962d30d3e20c540c16a6  deviceinfo
+c52e4b4436202d1b64a9cc2d22cc21f9a5963f8a79ec0f92d51b754198b4c7da0ab6e9b48f004e21cf747d510cc3fcd948305f5b88e0b8c9fcba812acb70b5f1  deviceinfo
+96aef56c34b780c1fc52bddfe19680485cf02aa6af17d9cd8b74980912887bac7693f757309ade7a72c365241e4ba7a041096cf3c8708c67d5ef55b370f45652  kernel-cmdline.conf
 "

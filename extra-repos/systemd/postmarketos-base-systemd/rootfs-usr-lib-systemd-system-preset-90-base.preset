@@ -29,7 +29,7 @@ enable tinydm.service
 enable udisks2.service
 enable cups.path
 enable cups.socket
-enable zram_swap.service
+enable postmarketos-zram-swap.service
 enable systemd-oomd.service
 enable alsa-restore.service
 enable alsa-state.service
@@ -38,6 +38,7 @@ enable alsa-state.service
 enable tuned.service
 enable tuned-ppd.service
 enable irqbalance.service
+enable usb-moded.service
 
 # Note: technically these two shouldn't be enabled at the same time, but
 # pmos-base-wifi provides should make sure that only one is installed at the
@@ -53,7 +54,8 @@ enable hfd-service.service
 enable urfkill.service
 
 enable plasma-mobile.service
-enable sddm.service
+disable sddm.service
+enable plasmalogin.service
 
 enable drkonqi-coredump-processor@.service
 
@@ -65,12 +67,6 @@ enable vnstat.service
 
 ## fbkeyboard
 enable fbkeyboard.service
-
-## asteroid
-enable mce.service
-enable usb-moded.service
-enable connman.service
-enable dsme.service
 
 ## kodi
 enable kodi.service

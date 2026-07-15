@@ -16,6 +16,7 @@ extensions = [
     "sphinxcontrib.autoprogram",
     "sphinxcontrib.jquery",
 ]
+myst_enable_extensions = ["colon_fence"]
 
 html_theme = "pmos"
 html_theme_options = {
@@ -28,8 +29,12 @@ html_title = "postmarketOS Packaging"
 
 
 def run_dint_doc(app):
-    with Path(__file__).parent.joinpath("deviceinfo-reference.md").open("w") as f:
-        subprocess.call(["dint", "doc"], stdout=f)
+    docs_dir = Path(__file__).parent
+
+    with docs_dir.joinpath("deviceinfo-reference.md").open("w") as f:
+        schema_path = docs_dir.parent / "deviceinfo_schema.toml"
+
+        subprocess.run(["dint", "doc"], stdout=f, check=True, env={"DINT_SCHEMA_PATH": schema_path})
 
 
 def setup(app):

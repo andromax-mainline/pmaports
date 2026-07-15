@@ -2,7 +2,7 @@
 maintainer="Lux Aliaga <they@mint.lgbt>"
 pkgname=device-xiaomi-laurel
 pkgdesc="Xiaomi Mi A3"
-pkgver=3
+pkgver=5
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -14,7 +14,7 @@ depends="
 	postmarketos-base
 "
 makedepends="devicepkg-dev"
-source="deviceinfo"
+source="deviceinfo kernel-cmdline.conf"
 
 build() {
 	devicepkg_build $startdir $pkgname
@@ -25,5 +25,6 @@ package() {
 }
 
 sha512sums="
-124a5544d38f85caa264612caa48515ee4f60663b64b045fffd02dc7f5c18682f58e077870a99580322728e11972266f717cafb3d213b4719a7a5653168614e3  deviceinfo
+7a7ef8415dd5a1f7a6784ec91c2f82f3f865dfad116bb39dd71d0c4968376edd02505d3529f08e948e21609ed5270d66d809ca3a3feeca31a55263253f4c6344  deviceinfo
+2b5d4ffa85b94bb81e21883c64955480fb09d50f7dd52118763f6b0b136ba7e3efe08ef29a759fa00ec1d7d0a9e87ba08d41f378452e0f41ff9881db34ec777c  kernel-cmdline.conf
 "
