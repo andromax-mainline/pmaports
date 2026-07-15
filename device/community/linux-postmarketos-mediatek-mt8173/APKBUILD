@@ -3,7 +3,7 @@
 # Co-Maintainer: WeirdTreeThing <bradyn127@protonmail.com>
 maintainer="Adam Thiede <me@adamthiede.com>"
 pkgname=linux-postmarketos-mediatek-mt8173
-pkgver=6.19.6
+pkgver=7.1.1
 pkgrel=0
 pkgdesc="Mainline kernel fork for Mediatek MT8173 devices"
 arch="aarch64"
@@ -19,13 +19,17 @@ makedepends="
 	bash
 	bison
 	clang
+	elfutils-dev
 	findutils
 	flex
+	linux-headers
 	lld
 	llvm
 	openssl-dev
+	pahole
 	perl
 	postmarketos-installkernel
+	python3
 	xz
 	zstd
 "
@@ -36,9 +40,14 @@ case $pkgver in
 	*.*.*)	_kernver=${pkgver%.0};;
 	*.*)	_kernver=$pkgver;;
 esac
+# patches:
+# https://lore.kernel.org/bpf/20260619-resolve-btfids-implicit-args-use-after-free-v1-1-2af87d4704c8@mainlining.org/
+# https://lore.kernel.org/linux-mediatek/42607fa4-485d-4142-b31c-7bfac71118d2@adamthiede.com/
 source="
-	https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${pkgver//_/-}.tar.xz
+	https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-${pkgver//_/-}.tar.xz
 	$_config
+	0001-resolve_btfids-preserve-parameter-names-when-process.patch
+	0002-fix-display-blank-revert-commit.patch
 "
 builddir="$srcdir/linux-${_kernver//_/-}"
 
@@ -59,7 +68,7 @@ package() {
 		ARCH="$_carch" \
 		LLVM=1 \
 		INSTALL_PATH="$pkgdir"/boot \
-		INSTALL_MOD_PATH="$pkgdir" \
+		INSTALL_MOD_PATH="$pkgdir"/usr \
 		INSTALL_MOD_STRIP=1 \
 		INSTALL_DTBS_PATH="$pkgdir/boot/dtbs"
 	rm -f "$pkgdir"/lib/modules/*/build "$pkgdir"/lib/modules/*/source
@@ -69,6 +78,8 @@ package() {
 }
 
 sha512sums="
-efbcb5c24bcf257e724387cd5caf069de6351230cbf6e15589d9c371b9a36d92ad211866dba72818b38458ced9c4a8ea4f572b49c0b0f282254f10030d456e2a  linux-6.19.6.tar.xz
-e49f5406d213889ba849a5962a92f3af27cc3a5077e6497dc6abf520aaa36bcee0a60eeea932834087d6727f380b8c10cb762431ab604672a64b1e52708acd8d  config-postmarketos-mediatek-mt8173.aarch64
+a8b618dadad2d84ff569c038dfb068943e251bb63e2694820fcac501dcc81791393e7cf1694ffb0aa5326ae8bc67e95840b489594e9a1de892752a0fb910371c  linux-7.1.1.tar.xz
+c262ffced4df825ea0660d2b4303ff07f80b0fd58592506c4ae0340cb9c50013e122756380420793b0a1a9f51b030210f3c3e732c6b5556455bd13eb6589a7fb  config-postmarketos-mediatek-mt8173.aarch64
+901780c4c468ebf8b6af7c27530fafb0439dfae889208c35f22aa7447902078d147db69a1c8e2115cd13f51c641eef878d9335b7527dc7fa2240cd617e045aab  0001-resolve_btfids-preserve-parameter-names-when-process.patch
+f141bc09d99a08e615b35fe82ffd11ed0b41c24701dfd541aece6af8859ca8c44769064bf8c8afa7c341b63c6fd1bcb2cf15ae9a23d3b8966c8be3da8a59c21b  0002-fix-display-blank-revert-commit.patch
 "

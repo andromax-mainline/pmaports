@@ -1,10 +1,11 @@
-maintainer="Bart Ribbers <bribbers@disroot.org>"
+maintainer="team/kde <bribbers@disroot.org>"
 pkgname=drkonqi
-pkgver=6.6.2
+pkgver=6.7.3
 pkgrel=0
 pkgdesc="The KDE crash handler"
 # armhf blocked by qt6-qtdeclarative -> ki18n
-arch="all !armhf"
+# riscv64: slow Alpine builders
+arch="all !armhf !riscv64"
 url="https://kde.org/plasma-desktop/"
 license="GPL-2.0-or-later"
 depends="
@@ -33,7 +34,6 @@ makedepends="
 	kuserfeedback-dev
 	kwallet-dev
 	kwidgetsaddons-dev
-	py3-chai
 	qt6-qtbase-dev
 	samurai
 	syntax-highlighting-dev
@@ -44,7 +44,10 @@ case "$pkgver" in
 	*.90*) _rel=unstable;;
 	*) _rel=stable;;
 esac
-subpackages="$pkgname-lang"
+subpackages="
+	$pkgname-lang
+	$pkgname-systemd
+	"
 _repo_url="https://invent.kde.org/plasma/drkonqi.git"
 source="https://download.kde.org/stable/plasma/$pkgver/drkonqi-$pkgver.tar.xz"
 
@@ -60,7 +63,7 @@ build() {
 
 check() {
 	# connectiontest requires a network connection
-	ctest --test-dir build --output-on-failure -E "(connection|preamble)test"
+	ctest --test-dir build -E "(connection|preamble)test"
 }
 
 package() {
@@ -68,5 +71,5 @@ package() {
 }
 
 sha512sums="
-924c3ba876489953ec1080877b6754da50d1603d0e2bca9975800d01c3d047a4f91c0b0c4cc45c61faaa9f06a7fc6dd2f177b03e9a254a26c91940fdedfbc6f8  drkonqi-6.6.2.tar.xz
+4a5ff2a1f298a84cbfa0495c34f142d3557a848e2e081c93ce93208ede3def37a8f6dcdde1b2bfd5e85e38b2e2155226af8769fd7df5708767dbb595646ca43b  drkonqi-6.7.3.tar.xz
 "

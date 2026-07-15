@@ -1,9 +1,9 @@
 # Forked from Alpine for temporary downstream patches
 maintainer="Robert Mader <robert.mader@collabora.com>"
 pkgname=libcamera
-_pkgver=0.7.0
+_pkgver=0.7.2
 pkgver=9999$_pkgver
-pkgrel=0
+pkgrel=1
 pkgdesc="Linux camera framework"
 url="https://libcamera.org/"
 arch="all"
@@ -16,7 +16,7 @@ makedepends="
 	glib-dev
 	gnutls-dev
 	graphviz
-	gst-plugins-bad-dev
+	gst-plugins-base-dev
 	gtest-dev
 	libevent-dev
 	libpisp-dev
@@ -42,6 +42,7 @@ subpackages="
 	$pkgname-gstreamer
 	$pkgname-v4l2
 	$pkgname-tools
+	py3-$pkgname-pyc:pyc
 	py3-$pkgname:py3
 	"
 _tuning_files="
@@ -50,6 +51,7 @@ _tuning_files="
 	imx363.yaml
 	imx371.yaml
 	imx376.yaml
+	imx519.yaml
 	imx858.yaml
 	s5k3l6xx.yaml
 	s5kjn1.yaml
@@ -57,7 +59,6 @@ _tuning_files="
 source="https://gitlab.freedesktop.org/camera/libcamera/-/archive/v$_pkgver/libcamera-v$_pkgver.tar.gz
 	0001-libcamera-simple-Enable-softISP-for-the-Pinephone.patch
 	0002-libcamera-simple-Skip-hwISP-formats-if-swISP-is-acti.patch
-	0003-RFC-egl-Implement-DMABuf-import-for-input-buffers.patch
 	qcam.desktop
 	$_tuning_files
 	"
@@ -170,17 +171,17 @@ py3() {
 }
 
 sha512sums="
-3d34792d3fd6a75a84150921b66875e4f8c5b8771e1218618fb58bee32d76b9e2b23226ef7ec850cdcd41b5bdd08ab41f61d4d69fca619a488c5ac0f1dcb283b  libcamera-v0.7.0.tar.gz
-e94ba31d69cad9ca9f9d895a253e849ac79b73bafea58987c078f9144049896138f61f3ea63a4c00de44e5a480622aed0bebe1b062d6c52757ce5f62f3a642f3  0001-libcamera-simple-Enable-softISP-for-the-Pinephone.patch
-1850f847a5a8597b78c5bf2cd88e9012531634ac7141925edf52f49fbca8c3b432a1e8d4270971741adbca150ed9928a86f86cdcb6f4ed04f5488ab21002074d  0002-libcamera-simple-Skip-hwISP-formats-if-swISP-is-acti.patch
-4ba352092bc5ed0b982efe854a7a079c363497b54b5ef5693975bd2c4d1ca0c134fb3278b60d9d77f5a87039ba2b165b5786497b7e1d74343580f2ecdc0a7049  0003-RFC-egl-Implement-DMABuf-import-for-input-buffers.patch
+b317cdc96f61682ee0bf26dfb7c4d6441db9a9c5b93ab53528121a8cd44862b3d59cbaa3881bb0837e3e381564c184c7b742124aef4267eea754c6083de353c1  libcamera-v0.7.2.tar.gz
+eef5e38efc874f2049d17f08b04d9f21c3e4616f66873358cd2c446e651f78d6952ae25ee13a6ef917e3f85bc7b6a6991152e42c8efd8c7f5bff69829a518826  0001-libcamera-simple-Enable-softISP-for-the-Pinephone.patch
+191dfa09cfd08bcdf0d0d07410d17af590cf78b8bc8f8b7587fd2dc1c645a9ca07f2926b5d98381c011319b1f4e1d6195dd0d6dba65fd8c723882e6be0d6117d  0002-libcamera-simple-Skip-hwISP-formats-if-swISP-is-acti.patch
 22167a4eceb6d1b40b0b7c45fdf116c71684f5340de7f767535cb8e160ad9d2ae0f00cb3d461f73a344520a48a4641cf46226841d78bee06bfbfd2a91337f754  qcam.desktop
 2ee566653b17d565d2c0de67cbe6ebad25df5aac6051cad78e6bae52016fa2ca0247e964d735ac776b3e0bd447ead9c4fcb26cd7629228cdba3ceb91b46f378f  hi846.yaml
-2ee566653b17d565d2c0de67cbe6ebad25df5aac6051cad78e6bae52016fa2ca0247e964d735ac776b3e0bd447ead9c4fcb26cd7629228cdba3ceb91b46f378f  imx355.yaml
-2ee566653b17d565d2c0de67cbe6ebad25df5aac6051cad78e6bae52016fa2ca0247e964d735ac776b3e0bd447ead9c4fcb26cd7629228cdba3ceb91b46f378f  imx363.yaml
+55dab9dcb9b1982143b9d63e4e51138c5bffd7c8f4a8e4e122750b3ad9d475446956bc297d9f564819ade4be75a575d06633a064e14f8ba3ef77986783c5f067  imx355.yaml
+285c6d0d712df341c0117c3762ddc139f53f44e6be36c3388d1a62696429175e2916f392163131e21f410c3676f02f5d125f375171f45f8d82ad278aa5076c62  imx363.yaml
 2ee566653b17d565d2c0de67cbe6ebad25df5aac6051cad78e6bae52016fa2ca0247e964d735ac776b3e0bd447ead9c4fcb26cd7629228cdba3ceb91b46f378f  imx371.yaml
-2ee566653b17d565d2c0de67cbe6ebad25df5aac6051cad78e6bae52016fa2ca0247e964d735ac776b3e0bd447ead9c4fcb26cd7629228cdba3ceb91b46f378f  imx376.yaml
-2ee566653b17d565d2c0de67cbe6ebad25df5aac6051cad78e6bae52016fa2ca0247e964d735ac776b3e0bd447ead9c4fcb26cd7629228cdba3ceb91b46f378f  imx858.yaml
+55dab9dcb9b1982143b9d63e4e51138c5bffd7c8f4a8e4e122750b3ad9d475446956bc297d9f564819ade4be75a575d06633a064e14f8ba3ef77986783c5f067  imx376.yaml
+2ee566653b17d565d2c0de67cbe6ebad25df5aac6051cad78e6bae52016fa2ca0247e964d735ac776b3e0bd447ead9c4fcb26cd7629228cdba3ceb91b46f378f  imx519.yaml
+55dab9dcb9b1982143b9d63e4e51138c5bffd7c8f4a8e4e122750b3ad9d475446956bc297d9f564819ade4be75a575d06633a064e14f8ba3ef77986783c5f067  imx858.yaml
 2ee566653b17d565d2c0de67cbe6ebad25df5aac6051cad78e6bae52016fa2ca0247e964d735ac776b3e0bd447ead9c4fcb26cd7629228cdba3ceb91b46f378f  s5k3l6xx.yaml
-2ee566653b17d565d2c0de67cbe6ebad25df5aac6051cad78e6bae52016fa2ca0247e964d735ac776b3e0bd447ead9c4fcb26cd7629228cdba3ceb91b46f378f  s5kjn1.yaml
+d59020e62520ee622282c85ce7bcdfe453c99becf48cc1005c5f8a4bb8b2511b19c89f38fb3c994e7c6a79d1f84e2ed5f5a09b4c5bdc1dc4a44b071dbccf0d44  s5kjn1.yaml
 "

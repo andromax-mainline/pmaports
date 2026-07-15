@@ -2,8 +2,8 @@
 # Co-Maintainer: WeirdTreeThing <bradyn127@protonmail.com>
 maintainer="Alicja Michalska <ellyqw@mainlining.org>"
 pkgname=linux-postmarketos-qcom-sc7180
-pkgver=6.18.9
-pkgrel=0
+pkgver=6.18.38
+pkgrel=1
 pkgdesc="Mainline kernel for Qualcomm Snapdragon 7c devices"
 arch="aarch64"
 _carch="arm64"
@@ -18,11 +18,14 @@ options="!strip !check !tracedeps
 makedepends="
 	bison
 	clang
+	elfutils-dev
 	findutils
 	flex
+	linux-headers
 	lld
 	llvm
 	openssl-dev
+	pahole
 	perl
 	postmarketos-installkernel
 	xz
@@ -72,16 +75,16 @@ package() {
 		ARCH="$_carch" \
 		LLVM=1 \
 		INSTALL_PATH="$pkgdir"/boot \
-		INSTALL_MOD_PATH="$pkgdir" \
+		INSTALL_MOD_PATH="$pkgdir"/usr \
 		INSTALL_MOD_STRIP=1 \
 		INSTALL_DTBS_PATH="$pkgdir/boot/dtbs"
-	rm -f "$pkgdir"/lib/modules/*/build "$pkgdir"/lib/modules/*/source
+	rm -f "$pkgdir"/usr/lib/modules/*/build "$pkgdir"/usr/lib/modules/*/source
 
 	install -D "$builddir"/include/config/kernel.release \
 		"$pkgdir"/usr/share/kernel/$_flavor/kernel.release
 }
 
 sha512sums="
-f7f8e77d6badefb5fd4d7b9ce08eca1a32201906ed390c7cbd8025ec00174fec21cf6b55aae82700bc656662c7f5e86e186edfbd3125f1cae583df1d6c6313a2  linux-6.18.9.tar.xz
-f92cdfb8d04644e19e7831f964475e3b59a044c48d5a6bcdc05be6389dad3dc6122c12f3df50ea47889aa6f6ea5b093c1dec386d889013df01835ba2717c5f87  config-postmarketos-qcom-sc7180.aarch64
+c3e7bdd4e8cbd33282f29f0b4c11a707748f4785b9b301fcd93a1424a0989661c4499d1c8ffe15fa224175ea551a97bdddf3db7c1d7ad9b3e3a94dec0372cf37  linux-6.18.38.tar.xz
+f1384adf66493a160c609ee65c89e3e7453bdc9c03a2d988f5b1af38886949acc3ae99b27f09d8ee1bcae80a90a463247ecfbaa99e4aee8b24edced9e5e7fe1c  config-postmarketos-qcom-sc7180.aarch64
 "
